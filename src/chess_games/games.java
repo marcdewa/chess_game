@@ -38,18 +38,41 @@ public class games {
 
 	}
 	
+
 	public void print() {
 		
 			for(int i = 8 ; i > 0 ; i--) {
 			
 				for(int j = 1 ; j < 9 ; j++) {
+					
 					if(b[i][j] != null) {
 					System.out.print(" "+b[i][j].piece+" ");
-					}else System.out.print("   ");
+					}else blackOrWhiteBoardColor(i, j);
+					
 				}
 				System.out.println(" "+(i)+" ");
 			}
 			System.out.println(" A  B  C  D  E  F  G  H");
+	}
+
+	private void blackOrWhiteBoardColor(int i, int j) {
+		if(isEven(i)) {
+			if(isEven(j)) {
+				System.out.print(" + ");
+			}
+			else System.out.print(" - ");
+		}
+		else {
+				if(isEven(j)) {
+					System.out.print(" - ");
+				}
+				else System.out.print(" + ");
+			
+		}
+	}
+
+	private boolean isEven(int i) {
+		return i%2==0;
 	}
 
 }
