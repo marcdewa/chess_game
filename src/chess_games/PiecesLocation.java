@@ -10,6 +10,11 @@ public class PiecesLocation {
 			this.file=file;
 		}
 		
+		public PiecesLocation(char rank, char file) {
+			this.rank = rank - 64;
+			this.file = file - 48;
+		}
+		
 		public int getRank() {
 			return rank;
 		}

@@ -16,6 +16,32 @@ public class Position {
 			this.piece=(char) (piece+32);
 		}else this.piece = piece;
 	}
+
+
+	public PiecesLocation getLoc() {
+		return loc;
+	}
+
+	public void setLoc(PiecesLocation loc) {
+		this.loc = loc;
+	}
+
+	public char getPiece() {
+		return piece;
+	}
+
+	public void setPiece(char piece) {
+		this.piece = piece;
+	}
+
+	public char getPlayer() {
+		return Player;
+	}
+
+	public void setPlayer(char player) {
+		Player = player;
+	}
+	
 	
 	
 }

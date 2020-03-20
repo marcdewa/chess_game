@@ -14,30 +14,52 @@ public class games {
 		int Side = (player=='b')? 8 : 1 ; 
 		int bw = (player=='b')? -1 : 1;
 		//Rook
-		b[Side][1] = new Position(new PiecesLocation(Side,1),'R',player);
-		b[Side][8] = new Position(new PiecesLocation(Side,8),'R',player);
+		setNewPieceAt(Side,1,"Rook",player);
+		setNewPieceAt(Side,8,"Rook",player);
 		
 		//Knight
-		b[Side][2] = new Position(new PiecesLocation(Side,2),'N',player);
-		b[Side][7] = new Position(new PiecesLocation(Side,7),'N',player);
+		setNewPieceAt(Side,2,"Night",player);
+		setNewPieceAt(Side,7,"Night",player);
+		//Emang sengaja 'Night' belum ketemu algoritmanya
 		
 		//Bishop
-		b[Side][3] = new Position(new PiecesLocation(Side,3),'B',player);
-		b[Side][6] = new Position(new PiecesLocation(Side,6),'B',player);
+		setNewPieceAt(Side,3,"Bishop",player);
+		setNewPieceAt(Side,6,"Bishop",player);
 		
 		//Queen
-		b[Side][4] = new Position(new PiecesLocation(Side,4),'Q',player);
+		setNewPieceAt(Side,4,"Queen",player);
 		
 		//King
-		b[Side][5] = new Position(new PiecesLocation(Side,5),'K',player);
+		setNewPieceAt(Side,5,"Queen",player);
+		
 		
 		//Pawn
 		for(int i=1; i<9;i++) {
-			b[Side+bw][i]=new Position(new PiecesLocation(7,i),'P',player);
+			setNewPieceAt(Side+bw,i,"Pawn",player);
 		}
 
 	}
 	
+	public void setNewPieceAt(int file,int rank,String piece,char player) {
+		b[file][rank] = new Position(new PiecesLocation(file,rank),piece.charAt(0),player);
+	}
+	
+	public void coordinateMove(String newLoc) {
+		String From;
+		String To;
+		PiecesLocation locFrom;
+		PiecesLocation locTo;
+		
+		
+		From = newLoc.substring(0,2);
+		locFrom = new PiecesLocation(From.charAt(0),From.charAt(1));
+		To = newLoc.substring(3,5);
+		locTo = new PiecesLocation(To.charAt(0),To.charAt(1));
+		
+		b[locTo.getFile()][locTo.getRank()]= b[locFrom.getFile()][locFrom.getRank()];
+		b[locTo.getFile()][locTo.getRank()].setLoc(locTo);
+		b[locFrom.getFile()][locFrom.getRank()] = null;
+	}
 
 	public void print() {
 		
