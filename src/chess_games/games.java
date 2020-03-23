@@ -1,65 +1,83 @@
 package chess_games;
 
+import chessEntities.*;
+
+
 public class games {
-	Position[][] b ;
+	Position[][] board ;
 
 	
 	public games() {
-		b = new Position[10][10];
+		board = new Position[10][10];
 		defaultPieceLocation('b');
 		defaultPieceLocation('w');
 	}
 	
+	
 	public void defaultPieceLocation(char player) {
 		int Side = (player=='b')? 8 : 1 ; 
 		int bw = (player=='b')? -1 : 1;
-		//Rook
-		setNewPieceAt(Side,1,"Rook",player);
-		setNewPieceAt(Side,8,"Rook",player);
+
+		setNewPieceAt(Side,1,new Rook(player));
+		setNewPieceAt(Side,8,new Rook(player));
 		
-		//Knight
-		setNewPieceAt(Side,2,"Night",player);
-		setNewPieceAt(Side,7,"Night",player);
-		//Emang sengaja 'Night' belum ketemu algoritmanya
+		setNewPieceAt(Side,2,new Knight(player));
+		setNewPieceAt(Side,7,new Knight(player));
 		
-		//Bishop
-		setNewPieceAt(Side,3,"Bishop",player);
-		setNewPieceAt(Side,6,"Bishop",player);
-		
-		//Queen
-		setNewPieceAt(Side,4,"Queen",player);
-		
-		//King
-		setNewPieceAt(Side,5,"Queen",player);
-		
-		
-		//Pawn
+		setNewPieceAt(Side,3,new Bishop(player));
+		setNewPieceAt(Side,6,new Bishop(player));
+	
+		setNewPieceAt(Side,4,new Queen(player));
+	
+		setNewPieceAt(Side,5,new King(player));
+
 		for(int i=1; i<9;i++) {
-			setNewPieceAt(Side+bw,i,"Pawn",player);
+			setNewPieceAt(Side+bw,i,new Pawn(player));
 		}
 
 	}
 	
-	public void setNewPieceAt(int file,int rank,String piece,char player) {
-		b[file][rank] = new Position(new PiecesLocation(file,rank),piece.charAt(0),player);
+	public void setNewPieceAt(int file,int rank,Pieces piece) {
+		board[file][rank] = new Position(new PiecesLocation(file,rank),piece);
 	}
 	
-	public void coordinateMove(String newLoc) {
-		String From;
-		String To;
-		PiecesLocation locFrom;
+	
+	
+	public void coordinateMove(String loc) {
 		PiecesLocation locTo;
+		PiecesLocation locFrom;
+		
+		locFrom = coordinateConverterToInteger(loc,0,2);
+		locTo = coordinateConverterToInteger(loc,3,5);
 		
 		
-		From = newLoc.substring(0,2);
-		locFrom = new PiecesLocation(From.charAt(0),From.charAt(1));
-		To = newLoc.substring(3,5);
-		locTo = new PiecesLocation(To.charAt(0),To.charAt(1));
-		
-		b[locTo.getFile()][locTo.getRank()]= b[locFrom.getFile()][locFrom.getRank()];
-		b[locTo.getFile()][locTo.getRank()].setLoc(locTo);
-		b[locFrom.getFile()][locFrom.getRank()] = null;
+		movingPieceToANewSpot(locTo, locFrom);
 	}
+	
+	public PiecesLocation coordinateConverterToInteger(String Loc,int start , int end) {
+		String Position;
+		Position = Loc.substring(start,end);
+		
+		return new PiecesLocation(Position.charAt(0),Position.charAt(1));
+	}
+	
+	
+	private void movingPieceToANewSpot(PiecesLocation locTo, PiecesLocation locFrom) {
+		if(validMoveCheck(locFrom,locTo)) {
+			movePiece(locTo, locFrom);
+		}else System.out.println("Invalid Move");
+	}
+
+	private void movePiece(PiecesLocation locTo, PiecesLocation locFrom) {
+		board[locTo.getFile()][locTo.getRank()]= board[locFrom.getFile()][locFrom.getRank()];
+		board[locTo.getFile()][locTo.getRank()].setLoc(locTo);
+		board[locFrom.getFile()][locFrom.getRank()] = null;
+	}
+
+	private boolean validMoveCheck(PiecesLocation locFrom,PiecesLocation locTo) {
+		return board[locFrom.getFile()][locFrom.getRank()].getPiece().canMove(locFrom,locTo);
+	}
+
 
 	public void print() {
 		
@@ -67,8 +85,8 @@ public class games {
 			
 				for(int j = 1 ; j < 9 ; j++) {
 					
-					if(b[i][j] != null) {
-					System.out.print(" "+b[i][j].piece+" ");
+					if(board[i][j] != null) {
+					System.out.print(" "+board[i][j].getPiece().getPieceName()+" ");
 					}else blackOrWhiteBoardColor(i, j);
 					
 				}

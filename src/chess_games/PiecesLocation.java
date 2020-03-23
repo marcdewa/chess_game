@@ -1,5 +1,7 @@
 package chess_games;
 
+import chessEntities.*;
+
 public class PiecesLocation {
 	
 		private int rank;

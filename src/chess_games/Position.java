@@ -1,20 +1,15 @@
 package chess_games;
 
+import chessEntities.*;
+
 public class Position {
 	private PiecesLocation loc;
-	public char piece;
-	private char Player;
+	private Pieces piece;
 	
-	public Position(PiecesLocation loc,char piece,char Player) {
-		pieceColor(Player,piece);
+	
+	public Position(PiecesLocation loc,Pieces piece) {
+		this.setPiece(piece);
 		this.loc = loc;
-		this.Player = Player;
-	}
-
-	public void pieceColor (char player , char piece ) {
-		if(player!='b') {
-			this.piece=(char) (piece+32);
-		}else this.piece = piece;
 	}
 
 
@@ -26,22 +21,14 @@ public class Position {
 		this.loc = loc;
 	}
 
-	public char getPiece() {
+	public Pieces getPiece() {
 		return piece;
 	}
 
-	public void setPiece(char piece) {
+	public void setPiece(Pieces piece) {
 		this.piece = piece;
 	}
 
-	public char getPlayer() {
-		return Player;
-	}
-
-	public void setPlayer(char player) {
-		Player = player;
-	}
-	
 	
 	
 }
