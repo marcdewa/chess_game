@@ -33,6 +33,16 @@ public abstract class Pieces {
 		if(player!='b') pieceName=(char) (pieceName+32);
 	}
 	
+	public boolean fileDifferenceIsEqualsTo(int number,PiecesLocation locFrom,PiecesLocation locTo) {
+		return Math.abs(locFrom.getFile() - locTo.getFile()) == number;
+	}
+	
+	public boolean rankDifferenceIsEqualsTo(int number,PiecesLocation locFrom,PiecesLocation locTo) {
+		return Math.abs(locFrom.getRank() - locTo.getRank()) == number;
+	}
+	
+	
+	
 	public abstract boolean canMove(PiecesLocation locFrom,PiecesLocation locTo);
 
 }

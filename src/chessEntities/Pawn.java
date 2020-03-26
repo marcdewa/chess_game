@@ -11,14 +11,54 @@ public class Pawn extends Pieces {
 
 	@Override
 	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo) {
-		int Difference = (this.player=='b') ? locFrom.getFile()-locTo.getFile() : locTo.getFile()-locFrom.getFile();
-		System.out.println((Difference>0 && Difference <3));
-		System.out.println(locFrom.getRank() == locFrom.getRank());
-		if((Difference>0 && Difference <3) && (locFrom.getRank() == locFrom.getRank()))
-			return true;
 		
+        if ( fileDifferenceIsEqualsTo(1,locFrom,locTo)
+                && rankDifferenceIsEqualsTo(0,locFrom,locTo)) {
+            if (this.player == 'w') {
+                if (locFrom.getFile() < locTo.getFile()) {
+               	
+                    return true;
+                }
+            }
+         
+            if (this.player == 'b') {
+                if (locFrom.getFile() > locTo.getFile()) {
+                    return true;
+                }
+            }
+        }
+        
+        if (fileDifferenceIsEqualsTo(2,locFrom,locTo)
+                && rankDifferenceIsEqualsTo(0,locFrom,locTo)
+                && isFirstTurn(locFrom)) {
+
+            // White can only move forward
+            if (this.player == 'w') {
+                if (locFrom.getFile() < locTo.getFile()) {
+                    return true;
+                }
+            }
+            // Black can only move backward in a sense.
+            if (this.player == 'b') {
+                if (locFrom.getFile() > locTo.getFile()) {
+                    return true;
+                }
+            }
+
+        }
+        
 		return false;
 	}
 	
+	public boolean isFirstTurn(PiecesLocation locFrom) {
+		if(this.player=='b' && locFrom.getFile()==7) {
+			return true;
+		}
+		if(this.player=='w' && locFrom.getFile()==2) {
+			return true;
+		}
+		return false;
+	}
+		
 	
 }
