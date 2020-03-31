@@ -1,7 +1,7 @@
 package chessEntities;
 
 import chess_games.PiecesLocation;
-
+import chess_games.Position;
 public class Rook extends Pieces {
 	
 	public Rook(char player) {
@@ -9,7 +9,7 @@ public class Rook extends Pieces {
 	}
 	
 	@Override
-	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo) {
+	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
 		return false;
 	}
 }

@@ -1,7 +1,7 @@
 package chessEntities;
 
 import chess_games.PiecesLocation;
-
+import chess_games.Position;
 public class Pawn extends Pieces {
 	
 	public Pawn(char player) {
@@ -10,7 +10,7 @@ public class Pawn extends Pieces {
 	}
 
 	@Override
-	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo) {
+	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
 		
         if ( fileDifferenceIsEqualsTo(1,locFrom,locTo)
                 && rankDifferenceIsEqualsTo(0,locFrom,locTo)) {

@@ -1,10 +1,12 @@
 package chessEntities;
 
 import chess_games.PiecesLocation;
+import chess_games.Position;
 
 public abstract class Pieces {
 	protected char pieceName;
 	protected char player;
+
 	
 	
 	public char getPlayer() {
@@ -43,6 +45,6 @@ public abstract class Pieces {
 	
 	
 	
-	public abstract boolean canMove(PiecesLocation locFrom,PiecesLocation locTo);
+	public abstract boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board);
 
 }

@@ -63,7 +63,8 @@ public class games {
 	
 	
 	private void movingPieceToANewSpot(PiecesLocation locTo, PiecesLocation locFrom) {
-		if(validMoveCheck(locFrom,locTo)) {
+		
+		if(validMoveCheck(locFrom,locTo,board)) {
 			movePiece(locTo, locFrom);
 		}else System.out.println("Invalid Move");
 	}
@@ -74,8 +75,8 @@ public class games {
 		board[locFrom.getFile()][locFrom.getRank()] = null;
 	}
 
-	private boolean validMoveCheck(PiecesLocation locFrom,PiecesLocation locTo) {
-		return board[locFrom.getFile()][locFrom.getRank()].getPiece().canMove(locFrom,locTo);
+	private boolean validMoveCheck(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
+		return board[locFrom.getFile()][locFrom.getRank()].getPiece().canMove(locFrom,locTo,board);
 	}
 
 

@@ -29,8 +29,6 @@ public class PiecesLocation {
 		public void setFile(int file) {
 			this.file = file;
 		}
-		
-		
 }
 
 
