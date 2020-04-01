@@ -11,11 +11,25 @@ public class Pawn extends Pieces {
 
 	@Override
 	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
-		
-        if ( fileDifferenceIsEqualsTo(1,locFrom,locTo)
-                && rankDifferenceIsEqualsTo(0,locFrom,locTo)) {
+
+        if(isTakingPiece(locFrom, locTo, board)) {
+        	return true;
+        }        
+        else if(moveTwoFiles(locFrom, locTo)) {
+        	return true;
+        }
+        else if(moveOneFile(locFrom, locTo, board)) {
+        	return true;
+        }
+
+		return false;
+	}
+
+	private boolean moveOneFile(PiecesLocation locFrom, PiecesLocation locTo, Position[][] board) {
+		if ( fileDifferenceIsEqualsTo(1,locFrom,locTo)
+                && rankDifferenceIsEqualsTo(0,locFrom,locTo) && board[locTo.getFile()][locFrom.getFile()]==null) {
             if (this.player == 'w') {
-                if (locFrom.getFile() < locTo.getFile()) {
+                if ((locFrom.getFile() < locTo.getFile()) ) {
                	
                     return true;
                 }
@@ -26,9 +40,11 @@ public class Pawn extends Pieces {
                     return true;
                 }
             }
-        }
-        
-        if (fileDifferenceIsEqualsTo(2,locFrom,locTo)
+        }return false;
+	}
+
+	private boolean moveTwoFiles(PiecesLocation locFrom, PiecesLocation locTo) {
+		if (fileDifferenceIsEqualsTo(2,locFrom,locTo)
                 && rankDifferenceIsEqualsTo(0,locFrom,locTo)
                 && isFirstTurn(locFrom)) {
 
@@ -44,10 +60,30 @@ public class Pawn extends Pieces {
                     return true;
                 }
             }
+            
+        }return false;
+	}
 
+	private boolean isTakingPiece(PiecesLocation locFrom, PiecesLocation locTo, Position[][] board) {
+		if((rankDifferenceIsEqualsTo(1,locFrom,locTo) && 
+        	fileDifferenceIsEqualsTo(1,locFrom,locTo)) && 
+        	board[locTo.getFile()][locTo.getRank()] != null) {
+        	 if (this.player == 'w') {
+                 if ((locFrom.getFile() < locTo.getFile()) ) {
+                	
+                     return true;
+                 }
+             }
+          
+             if (this.player == 'b') {
+                 if (locFrom.getFile() > locTo.getFile()) {
+                     return true;
+                 }
+             }
+             
+        	
         }
-        
-		return false;
+        return false;
 	}
 	
 	public boolean isFirstTurn(PiecesLocation locFrom) {

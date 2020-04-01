@@ -10,6 +10,9 @@ public class King extends Pieces {
 	
 	@Override
 	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
+		if(fileDifferenceIsEqualsTo(1,locFrom,locTo) ||rankDifferenceIsEqualsTo(1,locFrom,locTo) ) {
+			return true;
+		}
 		return false;
 	}
 }

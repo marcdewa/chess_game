@@ -10,7 +10,7 @@ public class Queen extends Pieces {
 	
 	@Override
 	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
-		return false;
+		return new Rook(this.player).canMove(locFrom, locTo,board) || new Bishop(this.player).canMove(locFrom, locTo,board);
 		
 	}
 }

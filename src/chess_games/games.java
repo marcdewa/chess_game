@@ -64,9 +64,18 @@ public class games {
 	
 	private void movingPieceToANewSpot(PiecesLocation locTo, PiecesLocation locFrom) {
 		
-		if(validMoveCheck(locFrom,locTo,board)) {
+		if(validMoveCheck(locFrom,locTo,board) && isEnemyPiece(locTo, locFrom)) {
 			movePiece(locTo, locFrom);
 		}else System.out.println("Invalid Move");
+	}
+
+
+	private boolean isEnemyPiece(PiecesLocation locTo, PiecesLocation locFrom) {
+		try {
+			return board[locTo.getFile()][locTo.getRank()].getPiece().getPlayer() != board[locFrom.getFile()][locFrom.getRank()].getPiece().getPlayer();
+		} catch (Exception e) {
+			return true;
+		}
 	}
 
 	private void movePiece(PiecesLocation locTo, PiecesLocation locFrom) {

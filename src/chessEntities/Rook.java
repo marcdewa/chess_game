@@ -11,27 +11,25 @@ public class Rook extends Pieces {
 	@Override
 	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
 		
+		
 		if(locFrom.getFile() != locTo.getFile() && locFrom.getRank() != locTo.getRank()){
 			
 			return false;
 		}
 		
-		int offset;
-		
-		if(locFrom.getFile() != locTo.getFile()){
-			
-			offset = (locFrom.getFile() < locTo.getFile())? 1: -1;
-			
-			for(int x = locFrom.getFile() + offset; x != locTo.getFile(); x += offset){
-				//System.out.println(x+""+""+locFrom.getRank());
-				if(board[x][locFrom.getRank()] != null){
-					return false;
-				}
-			}
+		if(!jumpOverPieceRowCheck(locFrom, locTo, board)) {
+			return false;
+		}
+		if(!jumpOverPieceColumnCheck(locFrom, locTo, board)) {
+			return false;
 		}
 		
+		return true;
 		
-		
+	}
+
+	private boolean jumpOverPieceColumnCheck(PiecesLocation locFrom, PiecesLocation locTo, Position[][] board) {
+		int offset;
 		if(locFrom.getRank() != locTo.getRank()){
 			offset = (locFrom.getRank() < locTo.getRank()) ? 1 : -1;
 			for(int x = locFrom.getRank() + offset; x != locTo.getRank(); x += offset){
@@ -41,9 +39,21 @@ public class Rook extends Pieces {
 				}
 			}
 		}
-		
 		return true;
-		
+	}
+
+	private boolean jumpOverPieceRowCheck(PiecesLocation locFrom, PiecesLocation locTo, Position[][] board) {
+		int offset;
+		if(locFrom.getFile() != locTo.getFile()){
+			offset = (locFrom.getFile() < locTo.getFile())? 1: -1;
+			for(int x = locFrom.getFile() + offset; x != locTo.getFile(); x += offset){
+				//System.out.println(x+""+""+locFrom.getRank());
+				if(board[x][locFrom.getRank()] != null){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }

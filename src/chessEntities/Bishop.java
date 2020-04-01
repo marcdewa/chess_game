@@ -18,6 +18,15 @@ public class Bishop extends Pieces {
 			return false;
 		}
 		
+		if(!jumpOverPieceCheck(locFrom, locTo, board)) {
+			return false;
+		}
+		
+		return true;
+		
+	}
+
+	private boolean jumpOverPieceCheck(PiecesLocation locFrom, PiecesLocation locTo, Position[][] board) {
 		int fileOffSet =(locFrom.getFile() < locTo.getFile()) ? 1:-1;
 		int rankOffSet = (locFrom.getRank() < locTo.getRank()) ? 1:-1;
 		//System.out.println(fileOffSet);
@@ -31,10 +40,7 @@ public class Bishop extends Pieces {
 			}
 			
 			y += rankOffSet;
-		}
-		
-		return true;
-		
+		} return true;
 	}
 
 	private boolean notMovingDiagonally(PiecesLocation locFrom, PiecesLocation locTo) {

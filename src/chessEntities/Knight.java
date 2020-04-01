@@ -12,11 +12,11 @@ public class Knight extends Pieces {
 	@Override
 	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
 		
-		if(Math.abs(locTo.getFile() - locFrom.getFile()) == 2 && Math.abs(locTo.getRank() - locFrom.getRank()) == 1){
+		if(fileDifferenceIsEqualsTo(2,locFrom,locTo) && rankDifferenceIsEqualsTo(1,locFrom,locTo)){
 			return true;
 		}
 		
-		if(Math.abs(locTo.getFile() - locFrom.getFile()) == 1 && Math.abs(locTo.getRank() - locFrom.getRank()) == 2){
+		if(fileDifferenceIsEqualsTo(1,locFrom,locTo)&& rankDifferenceIsEqualsTo(1,locFrom,locTo)){
 			return true;
 		}
 		
