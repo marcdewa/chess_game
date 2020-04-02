@@ -50,7 +50,6 @@ public class games {
 		locFrom = coordinateConverterToInteger(loc,0,2);
 		locTo = coordinateConverterToInteger(loc,3,5);
 		
-		
 		movingPieceToANewSpot(locTo, locFrom);
 	}
 	
@@ -85,7 +84,11 @@ public class games {
 	}
 
 	private boolean validMoveCheck(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
-		return board[locFrom.getFile()][locFrom.getRank()].getPiece().canMove(locFrom,locTo,board);
+		if((board[locFrom.getFile()][locFrom.getRank()].getPiece().canMove(locFrom,locTo,board))&&
+				!(isInCheck(board[locFrom.getFile()][locFrom.getRank()].getPiece().getPlayer()))) {
+			return true;
+		}
+		return false;
 	}
 
 
@@ -123,6 +126,52 @@ public class games {
 
 	private boolean isEven(int i) {
 		return i%2==0;
+	}
+	
+	public boolean isInCheck(char player){
+        PiecesLocation kingPos = kingPosition(player);
+        int file = kingPos.getFile();
+        int rank = kingPos.getRank();
+        System.out.println(board[kingPos.getFile()][kingPos.getRank()].getPiece().getPieceName());
+        for(int i = 0; i<board.length; i++){
+            for(int j = 0; j<board[0].length; j++){
+                if(board[i][j] != null){
+                    if(board[i][j].getPiece().canMove(new PiecesLocation(i,j), new PiecesLocation(file,rank),board) && 
+                    		board[i][j].getPiece().getPlayer() != player){
+                        //System.out.println(board[i][j].getPiece().getPieceName()+" "+board[file][rank].getPiece().getPieceName());
+                    	return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+	
+	private PiecesLocation kingPosition(char player) {
+		int file = 0;
+		int rank = 0;
+		
+		for(int i = 8 ; i > 0 ; i--) {
+			
+			for(int j = 1 ; j < 9 ; j++) {
+				
+				if(board[i][j] != null && isKing(i, j) && board[i][j].getPiece().getPlayer() == player) {
+					file=i;
+					rank=j;
+					break;
+				}
+				
+			}
+
+		}
+		
+		return new PiecesLocation(file,rank);
+	}
+
+
+	private boolean isKing(int i, int j) {
+		return board[i][j].getPiece().getPieceName()=='K'|| board[i][j].getPiece().getPieceName()=='k';
 	}
 
 }

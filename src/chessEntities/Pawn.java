@@ -11,7 +11,6 @@ public class Pawn extends Pieces {
 
 	@Override
 	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
-
         if(isTakingPiece(locFrom, locTo, board)) {
         	return true;
         }        
@@ -26,8 +25,11 @@ public class Pawn extends Pieces {
 	}
 
 	private boolean moveOneFile(PiecesLocation locFrom, PiecesLocation locTo, Position[][] board) {
+		System.out.println(board[locTo.getFile()][locFrom.getFile()]==null);
+		System.out.println(fileDifferenceIsEqualsTo(1,locFrom,locTo));
+		System.out.println(rankDifferenceIsEqualsTo(0,locFrom,locTo));
 		if ( fileDifferenceIsEqualsTo(1,locFrom,locTo)
-                && rankDifferenceIsEqualsTo(0,locFrom,locTo) && board[locTo.getFile()][locFrom.getFile()]==null) {
+                && rankDifferenceIsEqualsTo(0,locFrom,locTo) && board[locTo.getFile()][locTo.getRank()]==null) {
             if (this.player == 'w') {
                 if ((locFrom.getFile() < locTo.getFile()) ) {
                	
@@ -44,6 +46,7 @@ public class Pawn extends Pieces {
 	}
 
 	private boolean moveTwoFiles(PiecesLocation locFrom, PiecesLocation locTo) {
+
 		if (fileDifferenceIsEqualsTo(2,locFrom,locTo)
                 && rankDifferenceIsEqualsTo(0,locFrom,locTo)
                 && isFirstTurn(locFrom)) {
