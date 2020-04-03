@@ -22,14 +22,23 @@ public class Main {
 				break;
 			case 2:
 				while(true) {
-					game.print();
-					System.out.println("white move: ");
-					coor = scan.nextLine();
-					game.coordinateMove(coor);
+					Turn('w');
+					Turn('b');
 				}
 			default:
 				break;
 			}
+		}
+	}
+
+	private void Turn(char player) {
+		String coor;
+		String color = (player == 'b') ? "black" : "white"; 
+		game.print();
+		System.out.println(color+" move: ");
+		coor = scan.nextLine();
+		if(!game.coordinateMove(coor,player)) {
+			Turn(player);
 		}
 	}
 

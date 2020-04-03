@@ -43,29 +43,39 @@ public class games {
 	
 	
 	
-	public void coordinateMove(String loc) {
+	public boolean coordinateMove(String loc,char player) {
 		PiecesLocation locTo;
 		PiecesLocation locFrom;
 		
 		locFrom = coordinateConverterToInteger(loc,0,2);
 		locTo = coordinateConverterToInteger(loc,3,5);
 		
-		movingPieceToANewSpot(locTo, locFrom);
+		return movingPieceToANewSpot(locTo, locFrom,player);
 	}
 	
 	public PiecesLocation coordinateConverterToInteger(String Loc,int start , int end) {
 		String Position;
 		Position = Loc.substring(start,end);
 		
-		return new PiecesLocation(Position.charAt(0),Position.charAt(1));
+		return new PiecesLocation(Position.charAt(1),Position.charAt(0));
 	}
 	
 	
-	private void movingPieceToANewSpot(PiecesLocation locTo, PiecesLocation locFrom) {
-		
-		if(validMoveCheck(locFrom,locTo,board) && isEnemyPiece(locTo, locFrom)) {
-			movePiece(locTo, locFrom);
-		}else System.out.println("Invalid Move");
+	private boolean movingPieceToANewSpot(PiecesLocation locTo, PiecesLocation locFrom,char player) {
+		Position[][] oldBoard = board.clone();
+		if(validMoveCheck(locFrom,locTo,board) && 
+				isEnemyPiece(locTo, locFrom) &&
+				board[locFrom.getFile()][locFrom.getRank()].getPiece().getPlayer() == player) {
+				movePiece(locTo, locFrom);
+				if(isInCheck(player)) {
+					System.out.println("Invalid Move : Your king is in check");
+					board = oldBoard;
+					return false;
+				}else return true;
+		}else { 
+			System.out.println("Invalid Move");
+			return false;
+		}
 	}
 
 
@@ -84,8 +94,10 @@ public class games {
 	}
 
 	private boolean validMoveCheck(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
-		if((board[locFrom.getFile()][locFrom.getRank()].getPiece().canMove(locFrom,locTo,board))&&
-				!(isInCheck(board[locFrom.getFile()][locFrom.getRank()].getPiece().getPlayer()))) {
+		
+		if((board[locFrom.getFile()][locFrom.getRank()].getPiece().canMove(locFrom,locTo,board))
+				//&& !(isInCheck(board[locFrom.getFile()][locFrom.getRank()].getPiece().getPlayer()))
+				) {
 			return true;
 		}
 		return false;
@@ -132,7 +144,7 @@ public class games {
         PiecesLocation kingPos = kingPosition(player);
         int file = kingPos.getFile();
         int rank = kingPos.getRank();
-        System.out.println(board[kingPos.getFile()][kingPos.getRank()].getPiece().getPieceName());
+       // System.out.println(board[kingPos.getFile()][kingPos.getRank()].getPiece().getPieceName());
         for(int i = 0; i<board.length; i++){
             for(int j = 0; j<board[0].length; j++){
                 if(board[i][j] != null){

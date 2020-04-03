@@ -7,12 +7,12 @@ public class PiecesLocation {
 		private int rank;
 		private int file;
 		
-		public PiecesLocation(int rank,int file) {
+		public PiecesLocation(int file, int rank) {
 			this.rank=rank;
 			this.file=file;
 		}
 		
-		public PiecesLocation(char rank, char file) {
+		public PiecesLocation(char file, char rank) {
 			this.rank = rank - 64;
 			this.file = file - 48;
 		}
