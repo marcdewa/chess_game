@@ -6,10 +6,10 @@ import chessEntities.*;
 public class Main {
 	Scanner scan = new Scanner(System.in);
 	games game = new games();
+	
 	int flag ;
 	public Main() {
 		while (true) {
-			String coor;
 			algebraicOrCoordinate();
 			try {
 				flag = scan.nextInt();
@@ -30,6 +30,8 @@ public class Main {
 			}
 		}
 	}
+	
+
 
 	private void Turn(char player) {
 		String coor;
@@ -40,8 +42,19 @@ public class Main {
 		if(!game.coordinateMove(coor,player)) {
 			Turn(player);
 		}
+		
 	}
 
+//	private boolean isKingAlive(char player) {
+//		String color = (player == 'b') ? "black" : "white";  
+//		PiecesLocation kingPosition =null;
+//		kingPosition = game.kingPosition(player);
+//		if(kingPosition==null) {
+//			System.out.println(color+" Win!");
+//			return false;
+//		}else return true;
+//	}
+	
 	private void algebraicOrCoordinate() {
 		System.out.println("1. Algebraic");
 		System.out.println("2. Coordinate");

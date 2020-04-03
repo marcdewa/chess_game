@@ -62,14 +62,13 @@ public class games {
 	
 	
 	private boolean movingPieceToANewSpot(PiecesLocation locTo, PiecesLocation locFrom,char player) {
-		Position[][] oldBoard = board.clone();
-		if(validMoveCheck(locFrom,locTo,board) && 
-				isEnemyPiece(locTo, locFrom) &&
-				board[locFrom.getFile()][locFrom.getRank()].getPiece().getPlayer() == player) {
+		Position[][] oldBoard = cloning(board);
+		
+		if(validMoveCheck(locFrom,locTo,board) && isEnemyPiece(locTo, locFrom) && board[locFrom.getFile()][locFrom.getRank()].getPiece().getPlayer() == player) {
 				movePiece(locTo, locFrom);
 				if(isInCheck(player)) {
 					System.out.println("Invalid Move : Your king is in check");
-					board = oldBoard;
+					board = oldBoard.clone();
 					return false;
 				}else return true;
 		}else { 
@@ -78,6 +77,17 @@ public class games {
 		}
 	}
 
+	private Position[][] cloning(Position[][] Board) {
+		Position[][] oldBoard = new Position[10][10];
+		for(int i = 8 ; i > 0 ; i--) {
+			for(int j = 1 ; j < 9 ; j++) {
+				oldBoard[i][j] = board[i][j];
+
+			}
+		
+		}
+		return oldBoard;
+	}
 
 	private boolean isEnemyPiece(PiecesLocation locTo, PiecesLocation locFrom) {
 		try {
@@ -95,16 +105,14 @@ public class games {
 
 	private boolean validMoveCheck(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
 		
-		if((board[locFrom.getFile()][locFrom.getRank()].getPiece().canMove(locFrom,locTo,board))
-				//&& !(isInCheck(board[locFrom.getFile()][locFrom.getRank()].getPiece().getPlayer()))
-				) {
+		if((board[locFrom.getFile()][locFrom.getRank()].getPiece().canMove(locFrom,locTo,board))) {
 			return true;
 		}
 		return false;
 	}
 
 
-	public void print() {
+	public void print(Position[][] board) {
 		
 			for(int i = 8 ; i > 0 ; i--) {
 			
@@ -119,6 +127,22 @@ public class games {
 			}
 			System.out.println(" A  B  C  D  E  F  G  H");
 	}
+	
+	public void print() {
+		
+		for(int i = 8 ; i > 0 ; i--) {
+		
+			for(int j = 1 ; j < 9 ; j++) {
+				
+				if(board[i][j] != null) {
+				System.out.print(" "+board[i][j].getPiece().getPieceName()+" ");
+				}else blackOrWhiteBoardColor(i, j);
+				
+			}
+			System.out.println(" "+(i)+" ");
+		}
+		System.out.println(" A  B  C  D  E  F  G  H");
+}
 
 	private void blackOrWhiteBoardColor(int i, int j) {
 		if(isEven(i)) {
@@ -160,7 +184,7 @@ public class games {
         return false;
     }
 	
-	private PiecesLocation kingPosition(char player) {
+	public PiecesLocation kingPosition(char player) {
 		int file = 0;
 		int rank = 0;
 		
