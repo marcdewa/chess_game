@@ -3,22 +3,15 @@ package chess_games;
 import chessEntities.*;
 
 public class Position {
-	private PiecesLocation loc;
 	private Pieces piece;
 	
 	
-	public Position(PiecesLocation loc,Pieces piece) {
+	public Position(PiecesLocation loc,Pieces piece){
+		if(loc.getFile()>8 || loc.getRank()>8) {
+			System.out.println("index out of range");
+			System.exit(0);
+		}
 		this.setPiece(piece);
-		this.loc = loc;
-	}
-
-
-	public PiecesLocation getLoc() {
-		return loc;
-	}
-
-	public void setLoc(PiecesLocation loc) {
-		this.loc = loc;
 	}
 
 	public Pieces getPiece() {

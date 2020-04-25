@@ -6,7 +6,7 @@ import chess_games.Position;
 public class Knight extends Pieces {
 	
 	public Knight(char player) {
-		super('K', player);
+		super('N', player);
 	}
 	
 	@Override
@@ -19,7 +19,6 @@ public class Knight extends Pieces {
 		if(fileDifferenceIsEqualsTo(1,locFrom,locTo)&& rankDifferenceIsEqualsTo(1,locFrom,locTo)){
 			return true;
 		}
-		
 		return false;
 	}
 }

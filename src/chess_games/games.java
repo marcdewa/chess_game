@@ -3,11 +3,11 @@ package chess_games;
 import chessEntities.*;
 
 
-public class games {
+public class Games {
 	Position[][] board ;
 
 	
-	public games() {
+	public Games() {
 		board = new Position[10][10];
 		defaultPieceLocation('b');
 		defaultPieceLocation('w');
@@ -15,26 +15,31 @@ public class games {
 	
 	
 	public void defaultPieceLocation(char player) {
-		int Side = (player=='b')? 8 : 1 ; 
-		int bw = (player=='b')? -1 : 1;
+		int startPoint = isBlack(player)? 8 : 1 ; 
+		int forwardMovement = isBlack(player)? -1 : 1;
 
-		setNewPieceAt(Side,1,new Rook(player));
-		setNewPieceAt(Side,8,new Rook(player));
+		setNewPieceAt(startPoint,1,new Rook(player));
+		setNewPieceAt(startPoint,8,new Rook(player));
 		
-		setNewPieceAt(Side,2,new Knight(player));
-		setNewPieceAt(Side,7,new Knight(player));
+		setNewPieceAt(startPoint,2,new Knight(player));
+		setNewPieceAt(startPoint,7,new Knight(player));
 		
-		setNewPieceAt(Side,3,new Bishop(player));
-		setNewPieceAt(Side,6,new Bishop(player));
+		setNewPieceAt(startPoint,3,new Bishop(player));
+		setNewPieceAt(startPoint,6,new Bishop(player));
 	
-		setNewPieceAt(Side,4,new Queen(player));
+		setNewPieceAt(startPoint,4,new Queen(player));
 	
-		setNewPieceAt(Side,5,new King(player));
+		setNewPieceAt(startPoint,5,new King(player));
 
 		for(int i=1; i<9;i++) {
-			setNewPieceAt(Side+bw,i,new Pawn(player));
+			setNewPieceAt(startPoint+forwardMovement,i,new Pawn(player));
 		}
 
+	}
+
+
+	private boolean isBlack(char player) {
+		return player=='b';
 	}
 	
 	public void setNewPieceAt(int file,int rank,Pieces piece) {
@@ -43,39 +48,51 @@ public class games {
 	
 	
 	
-	public boolean coordinateMove(String loc,char player) {
-		PiecesLocation locTo;
-		PiecesLocation locFrom;
+
+	public boolean coordinateMove(String input,char player)  {
+		if(input.length() != 5) {
+			System.out.println("invalid coordinate");
+			return false;
+		}
 		
-		locFrom = coordinateConverterToInteger(loc,0,2);
-		locTo = coordinateConverterToInteger(loc,3,5);
+		try {
+			MoveCoordinate movLoc = new MoveCoordinate(input,this);
+			return movingPieceToANewSpot(movLoc,player);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
 		
-		return movingPieceToANewSpot(locTo, locFrom,player);
 	}
-	
-	public PiecesLocation coordinateConverterToInteger(String Loc,int start , int end) {
-		String Position;
-		Position = Loc.substring(start,end);
-		
-		return new PiecesLocation(Position.charAt(1),Position.charAt(0));
-	}
+
 	
 	
-	private boolean movingPieceToANewSpot(PiecesLocation locTo, PiecesLocation locFrom,char player) {
+	private boolean movingPieceToANewSpot(MoveCoordinate movLoc,char player) {
 		Position[][] oldBoard = cloning(board);
-		
-		if(validMoveCheck(locFrom,locTo,board) && isEnemyPiece(locTo, locFrom) && board[locFrom.getFile()][locFrom.getRank()].getPiece().getPlayer() == player) {
-				movePiece(locTo, locFrom);
+		if(isMoveValid(movLoc,player)) {
+			if(isMoveCastling(movLoc.getLocFrom())) {
+				castlingMove(movLoc);
+				return true;
+			}else {
+				movePiece(movLoc);
 				if(isInCheck(player)) {
 					System.out.println("Invalid Move : Your king is in check");
 					board = oldBoard.clone();
 					return false;
-				}else return true;
+				}
+				return true;
+			}
 		}else { 
-			System.out.println("Invalid Move");
+			System.out.println("Invalid Move "+"\""+board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().getPieceName()+"\" piece");
 			return false;
 		}
 	}
+
+
+	private boolean isMoveCastling(PiecesLocation locFrom) {
+		return isKing(locFrom.getFile(),locFrom.getRank()) && ((King) (board[locFrom.getFile()][locFrom.getRank()].getPiece())).isCastling();
+	}
+
 
 	private Position[][] cloning(Position[][] Board) {
 		Position[][] oldBoard = new Position[10][10];
@@ -89,80 +106,99 @@ public class games {
 		return oldBoard;
 	}
 
-	private boolean isEnemyPiece(PiecesLocation locTo, PiecesLocation locFrom) {
+	private boolean isEnemyPiece(MoveCoordinate movLoc) {
 		try {
-			return board[locTo.getFile()][locTo.getRank()].getPiece().getPlayer() != board[locFrom.getFile()][locFrom.getRank()].getPiece().getPlayer();
+			return board[movLoc.getLocToFile()][movLoc.getLocToRank()].getPiece().getPlayer() != board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().getPlayer();
 		} catch (Exception e) {
 			return true;
 		}
 	}
-
-	private void movePiece(PiecesLocation locTo, PiecesLocation locFrom) {
-		board[locTo.getFile()][locTo.getRank()]= board[locFrom.getFile()][locFrom.getRank()];
-		board[locTo.getFile()][locTo.getRank()].setLoc(locTo);
-		board[locFrom.getFile()][locFrom.getRank()] = null;
-	}
-
-	private boolean validMoveCheck(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
-		
-		if((board[locFrom.getFile()][locFrom.getRank()].getPiece().canMove(locFrom,locTo,board))) {
-			return true;
-		}
-		return false;
-	}
-
-
-	public void print(Position[][] board) {
-		
-			for(int i = 8 ; i > 0 ; i--) {
-			
-				for(int j = 1 ; j < 9 ; j++) {
-					
-					if(board[i][j] != null) {
-					System.out.print(" "+board[i][j].getPiece().getPieceName()+" ");
-					}else blackOrWhiteBoardColor(i, j);
-					
-				}
-				System.out.println(" "+(i)+" ");
-			}
-			System.out.println(" A  B  C  D  E  F  G  H");
-	}
 	
-	public void print() {
+	private void castlingMove(MoveCoordinate movLoc) {
+		movePiece(movLoc);
+		if(movLoc.getLocToRank()-movLoc.getLocFromRank()==2) {
+			board[movLoc.getLocToFile()][movLoc.getLocToRank()+1].getPiece().setHasMoved(true);
+			board[movLoc.getLocToFile()][movLoc.getLocToRank()-1]= board[movLoc.getLocToFile()][movLoc.getLocToRank()+1];
+			board[movLoc.getLocToFile()][movLoc.getLocToRank()+1] = null;
+		}else {
+			board[movLoc.getLocToFile()][movLoc.getLocToRank()-2].getPiece().setHasMoved(true);
+			board[movLoc.getLocToFile()][movLoc.getLocToRank()+1]= board[movLoc.getLocToFile()][movLoc.getLocToRank()-2];
+			board[movLoc.getLocToFile()][movLoc.getLocToRank()-2] = null;
+		}
 		
-		for(int i = 8 ; i > 0 ; i--) {
-		
-			for(int j = 1 ; j < 9 ; j++) {
-				
-				if(board[i][j] != null) {
-				System.out.print(" "+board[i][j].getPiece().getPieceName()+" ");
-				}else blackOrWhiteBoardColor(i, j);
-				
-			}
-			System.out.println(" "+(i)+" ");
-		}
-		System.out.println(" A  B  C  D  E  F  G  H");
-}
-
-	private void blackOrWhiteBoardColor(int i, int j) {
-		if(isEven(i)) {
-			if(isEven(j)) {
-				System.out.print(" + ");
-			}
-			else System.out.print(" - ");
-		}
-		else {
-				if(isEven(j)) {
-					System.out.print(" - ");
-				}
-				else System.out.print(" + ");
-			
-		}
 	}
 
-	private boolean isEven(int i) {
-		return i%2==0;
+	private void movePiece(MoveCoordinate movLoc) {
+		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().setHasMoved(true);
+		board[movLoc.getLocToFile()][movLoc.getLocToRank()]= board[movLoc.getLocFromFile()][movLoc.getLocFromRank()];
+		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()] = null;
 	}
+
+	private boolean isMoveValid(MoveCoordinate movLoc,char player) {
+		if(!isEnemyPiece(movLoc)) 
+			return false;
+		
+		if(!(board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().getPlayer() == player)) 
+			return false;
+		
+		if(!(board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().canMove(movLoc.getLocFrom(),movLoc.getLocTo(),board))) 
+			return false;
+		
+		return true;
+	}
+
+
+//	public void print(Position[][] board) {
+//		
+//			for(int i = 8 ; i > 0 ; i--) {
+//			
+//				for(int j = 1 ; j < 9 ; j++) {
+//					
+//					if(board[i][j] != null) {
+//					System.out.print(" "+board[i][j].getPiece().getPieceName()+" ");
+//					}else blackOrWhiteBoardColor(i, j);
+//					
+//				}
+//				System.out.println(" "+(i)+" ");
+//			}
+//			System.out.println(" A  B  C  D  E  F  G  H");
+//	}
+	
+//	public void print() {
+//		
+//		for(int i = 8 ; i > 0 ; i--) {
+//		
+//			for(int j = 1 ; j < 9 ; j++) {
+//				
+//				if(board[i][j] != null) {
+//				System.out.print(" "+board[i][j].getPiece().getPieceName()+" ");
+//				}else blackOrWhiteBoardColor(i, j);
+//				
+//			}
+//			System.out.println(" "+(i)+" ");
+//		}
+//		System.out.println(" A  B  C  D  E  F  G  H");
+//}
+//
+//	private void blackOrWhiteBoardColor(int i, int j) {
+//		if(isEven(i)) {
+//			if(isEven(j)) {
+//				System.out.print(" + ");
+//			}
+//			else System.out.print(" - ");
+//		}
+//		else {
+//				if(isEven(j)) {
+//					System.out.print(" - ");
+//				}
+//				else System.out.print(" + ");
+//			
+//		}
+//	}
+//
+//	private boolean isEven(int i) {
+//		return i%2==0;
+//	}
 	
 	public boolean isInCheck(char player){
         PiecesLocation kingPos = kingPosition(player);

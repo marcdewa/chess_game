@@ -6,9 +6,17 @@ import chess_games.Position;
 public abstract class Pieces {
 	protected char pieceName;
 	protected char player;
+	protected boolean hasMoved;
+	
+	
+	public boolean isHasMoved() {
+		return hasMoved;
+	}
 
-	
-	
+	public void setHasMoved(boolean hasMoved) {
+		this.hasMoved = hasMoved;
+	}
+
 	public char getPlayer() {
 		return player;
 	}
@@ -28,6 +36,7 @@ public abstract class Pieces {
 	public Pieces(char piece , char player) {
 		this.pieceName = piece;
 		this.player = player;
+		this.hasMoved = false;
 		pieceColorDetermination(player);
 	}
 	

@@ -1,11 +1,14 @@
-package chess_games;
+package Main;
 
 import java.util.Scanner;
 import chessEntities.*;
+import chess_games.BoardPrinter;
+import chess_games.Games;
 
 public class Main {
 	Scanner scan = new Scanner(System.in);
-	games game = new games();
+	Games game = new Games();
+	BoardPrinter print = new BoardPrinter(game);
 	
 	int flag ;
 	public Main() {
@@ -18,7 +21,7 @@ public class Main {
 			}scan.nextLine();
 			switch (flag) {
 			case 1:
-				game.print();
+				print.print();
 				break;
 			case 2:
 				while(true) {
@@ -34,9 +37,10 @@ public class Main {
 
 
 	private void Turn(char player) {
-		String coor;
+		print.clear();
+		String coor = null;
 		String color = (player == 'b') ? "black" : "white"; 
-		game.print();
+		print.print();
 		System.out.println(color+" move: ");
 		coor = scan.nextLine();
 		if(!game.coordinateMove(coor,player)) {
@@ -45,16 +49,6 @@ public class Main {
 		
 	}
 
-//	private boolean isKingAlive(char player) {
-//		String color = (player == 'b') ? "black" : "white";  
-//		PiecesLocation kingPosition =null;
-//		kingPosition = game.kingPosition(player);
-//		if(kingPosition==null) {
-//			System.out.println(color+" Win!");
-//			return false;
-//		}else return true;
-//	}
-	
 	private void algebraicOrCoordinate() {
 		System.out.println("1. Algebraic");
 		System.out.println("2. Coordinate");
