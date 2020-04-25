@@ -52,7 +52,9 @@ public abstract class Pieces {
 		return Math.abs(locFrom.getRank() - locTo.getRank()) == number;
 	}
 	
-	
+	public boolean isKing(int i, int j) {
+		return pieceName=='K'|| pieceName=='k';
+	}
 	
 	public abstract boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board);
 

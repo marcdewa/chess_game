@@ -68,28 +68,5 @@ public class MoveCoordinate {
 	public int getLocFromRank() {
 		return this.locFrom.getRank();
 	}
-
-	public boolean isEnemyPiece(MoveCoordinate movLoc,Games game) {
-		try {
-			return game.board[movLoc.getLocToFile()][movLoc.getLocToRank()].getPiece().getPlayer() != game.board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().getPlayer();
-		} catch (Exception e) {
-			return true;
-		}
-	}
-	
-	public boolean isMoveValid(MoveCoordinate movLoc,char player,Games game) {
-		if(!isEnemyPiece(movLoc,game)) 
-			return false;
-		
-		if(!(game.board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().getPlayer() == player)) 
-			return false;
-		
-		if(!(game.board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().canMove(movLoc.getLocFrom(),movLoc.getLocTo(),game.board))) 
-			return false;
-		
-		return true;
-	}
-
-
 	
 }
