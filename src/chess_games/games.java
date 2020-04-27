@@ -1,13 +1,19 @@
 package chess_games;
 
+import java.util.Scanner;
+
 import chessEntities.*;
 
 
 public class Games {
 	Position[][] board ;
 	Move move;
+	BoardPrinter print;
+	Scanner scan ;
 	
 	public Games() {
+		print = new BoardPrinter(this);
+		scan = new Scanner(System.in);
 		board = new Position[10][10];
 		move = new Move(board);
 		defaultPieceLocation('b');
@@ -19,21 +25,21 @@ public class Games {
 		int startPoint = isBlack(player)? 8 : 1 ; 
 		int forwardMovement = isBlack(player)? -1 : 1;
 
-		setNewPieceAt(startPoint,1,new Rook(player));
-		setNewPieceAt(startPoint,8,new Rook(player));
+		setNewPieceAt(startPoint,1,new Rook(player,board));
+		setNewPieceAt(startPoint,8,new Rook(player,board));
 		
-		setNewPieceAt(startPoint,2,new Knight(player));
-		setNewPieceAt(startPoint,7,new Knight(player));
+		setNewPieceAt(startPoint,2,new Knight(player,board));
+		setNewPieceAt(startPoint,7,new Knight(player,board));
 		
-		setNewPieceAt(startPoint,3,new Bishop(player));
-		setNewPieceAt(startPoint,6,new Bishop(player));
+		setNewPieceAt(startPoint,3,new Bishop(player,board));
+		setNewPieceAt(startPoint,6,new Bishop(player,board));
 	
-		setNewPieceAt(startPoint,4,new Queen(player));
+		setNewPieceAt(startPoint,4,new Queen(player,board));
 	
-		setNewPieceAt(startPoint,5,new King(player));
+		setNewPieceAt(startPoint,5,new King(player,board));
 
 		for(int i=1; i<9;i++) {
-			setNewPieceAt(startPoint+forwardMovement,i,new Pawn(player));
+			setNewPieceAt(startPoint+forwardMovement,i,new Pawn(player,board));
 		}
 
 	}
@@ -47,9 +53,6 @@ public class Games {
 		board[file][rank] = new Position(new PiecesLocation(file,rank),piece);
 	}
 	
-	
-	
-
 	public boolean coordinateMove(String input,char player)  {
 		if(input.length() != 5) {
 			System.out.println("invalid coordinate");
@@ -58,10 +61,31 @@ public class Games {
 		
 		try {
 			MoveCoordinate movLoc = new MoveCoordinate(input,this);
-			return move.movingPieceToANewSpot(movLoc,player);
+			return move.movingPiece(player,movLoc);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return false;
+		}
+		
+	}
+	
+	public void startGame() {
+		while(true) {
+			Turn('w');
+			Turn('b');
+		}
+	}
+	
+	private void Turn(char player) {
+		print.clear();
+		String coor = null;
+		String color = (player == 'b') ? "black" : "white"; 
+		print.print();
+		System.out.println(color+" move: ");
+		coor = scan.nextLine();
+		if(!coordinateMove(coor,player)) {
+			Turn(player);
+			
 		}
 		
 	}

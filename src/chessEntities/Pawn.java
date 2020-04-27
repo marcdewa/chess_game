@@ -1,57 +1,63 @@
 package chessEntities;
 
+import chess_games.MoveCoordinate;
 import chess_games.PiecesLocation;
 import chess_games.Position;
 public class Pawn extends Pieces {
 	
-	public Pawn(char player) {
-		super('P', player);
+	public Pawn(char player,Position[][] board) {
+		super('P', player,board);
 		
 	}
 
 	@Override
-	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
-        if(isTakingPiece(locFrom, locTo, board)) {
+	public boolean canMove(MoveCoordinate movLoc) {
+        if(isTakingPiece(movLoc)) {
         	return true;
         }        
-        else if(moveTwoFiles(locFrom, locTo)) {
+        else if(moveTwoFiles(movLoc)) {
         	return true;
         }
-        else if(moveOneFile(locFrom, locTo, board)) {
+        else if(moveOneFile(movLoc)) {
         	return true;
         }
 		return false;
 	}
 
-	private boolean moveOneFile(PiecesLocation locFrom, PiecesLocation locTo, Position[][] board) {
-		if ( fileDifferenceIsEqualsTo(1,locFrom,locTo)
-                && rankDifferenceIsEqualsTo(0,locFrom,locTo) && board[locTo.getFile()][locTo.getRank()]==null) {
+	private boolean moveOneFile(MoveCoordinate movLoc) {
+		int fromFile = movLoc.getLocFromFile();
+		int toFile = movLoc.getLocToFile();
+		int toRank = movLoc.getLocToRank();
+		if ( fileDifferenceIsEqualsTo(1,movLoc)
+                && rankDifferenceIsEqualsTo(0,movLoc) && board[toFile][toRank]==null) {
             if (this.player == 'w') {
-                if ((locFrom.getFile() < locTo.getFile()) ) {
+                if (fromFile<toFile ) {
                     return true;
                 }
             }
          
             if (this.player == 'b') {
-                if (locFrom.getFile() > locTo.getFile()) {
+                if (fromFile > toFile) {
                     return true;
                 }
             }
         }return false;
 	}
 
-	private boolean moveTwoFiles(PiecesLocation locFrom, PiecesLocation locTo) {
-
-		if (fileDifferenceIsEqualsTo(2,locFrom,locTo)
-                && rankDifferenceIsEqualsTo(0,locFrom,locTo)
-                && isFirstTurn(locFrom)) {
+	private boolean moveTwoFiles(MoveCoordinate movLoc) {
+		int fromFile = movLoc.getLocFromFile();
+		int toFile = movLoc.getLocToFile();
+		
+		if (fileDifferenceIsEqualsTo(2,movLoc)
+                && rankDifferenceIsEqualsTo(0,movLoc)
+                && isFirstTurn(movLoc.getLocFrom())) {
             if (this.player == 'w') {
-                if (locFrom.getFile() < locTo.getFile()) {
+                if (fromFile < toFile) {
                     return true;
                 }
             }
             if (this.player == 'b') {
-                if (locFrom.getFile() > locTo.getFile()) {
+                if (fromFile > toFile) {
                     return true;
                 }
             }
@@ -60,19 +66,23 @@ public class Pawn extends Pieces {
 		return false;
 	}
 
-	private boolean isTakingPiece(PiecesLocation locFrom, PiecesLocation locTo, Position[][] board) {
-		if((rankDifferenceIsEqualsTo(1,locFrom,locTo) && 
-        	fileDifferenceIsEqualsTo(1,locFrom,locTo)) && 
-        	board[locTo.getFile()][locTo.getRank()] != null) {
+	private boolean isTakingPiece(MoveCoordinate movLoc) {
+		int fromFile = movLoc.getLocFromFile();
+		int toFile = movLoc.getLocToFile();
+		int toRank = movLoc.getLocToRank();
+		
+		if((rankDifferenceIsEqualsTo(1,movLoc) && 
+        	fileDifferenceIsEqualsTo(1,movLoc)) && 
+        	board[toFile][toRank] != null) {
         	 if (this.player == 'w') {
-                 if ((locFrom.getFile() < locTo.getFile()) ) {
+                 if ((fromFile < toFile) ) {
                 	
                      return true;
                  }
              }
           
              if (this.player == 'b') {
-                 if (locFrom.getFile() > locTo.getFile()) {
+                 if (fromFile > toFile) {
                      return true;
                  }
              }

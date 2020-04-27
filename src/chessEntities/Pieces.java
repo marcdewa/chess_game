@@ -1,5 +1,7 @@
 package chessEntities;
 
+import chess_games.Games;
+import chess_games.MoveCoordinate;
 import chess_games.PiecesLocation;
 import chess_games.Position;
 
@@ -7,7 +9,9 @@ public abstract class Pieces {
 	protected char pieceName;
 	protected char player;
 	protected boolean hasMoved;
+	protected Position[][] board;
 	
+	public abstract boolean canMove(MoveCoordinate moveLoc);
 	
 	public boolean isHasMoved() {
 		return hasMoved;
@@ -33,29 +37,31 @@ public abstract class Pieces {
 		this.pieceName = pieceName;
 	}
 
-	public Pieces(char piece , char player) {
+	public Pieces(char piece , char player,Position[][] board) {
 		this.pieceName = piece;
 		this.player = player;
 		this.hasMoved = false;
+		this.board = board;
 		pieceColorDetermination(player);
 	}
 	
 	public void pieceColorDetermination(char player) {
 		if(player!='b') pieceName=(char) (pieceName+32);
 	}
+
 	
-	public boolean fileDifferenceIsEqualsTo(int number,PiecesLocation locFrom,PiecesLocation locTo) {
-		return Math.abs(locFrom.getFile() - locTo.getFile()) == number;
+	public boolean fileDifferenceIsEqualsTo(int number,MoveCoordinate movLoc) {
+		return Math.abs(movLoc.getLocFromFile() - movLoc.getLocToFile()) == number;
 	}
 	
-	public boolean rankDifferenceIsEqualsTo(int number,PiecesLocation locFrom,PiecesLocation locTo) {
-		return Math.abs(locFrom.getRank() - locTo.getRank()) == number;
+	public boolean rankDifferenceIsEqualsTo(int number,MoveCoordinate movLoc) {
+		return Math.abs(movLoc.getLocFromRank() - movLoc.getLocToRank()) == number;
 	}
 	
 	public boolean isKing(int i, int j) {
 		return pieceName=='K'|| pieceName=='k';
 	}
 	
-	public abstract boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board);
+	
 
 }

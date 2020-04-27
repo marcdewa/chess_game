@@ -4,36 +4,40 @@ import chessEntities.King;
 
 public class Move {
 	Position[][] board;
-
+	MoveCoordinate movLoc;
+	
 	public Move(Position[][] board) {
 		this.board = board;
 	}
-	public boolean movingPieceToANewSpot(MoveCoordinate movLoc,char player) {
+	
+	
+	
+	public boolean movingPiece(char player,MoveCoordinate movLoc) {
+		this.movLoc = movLoc;
 		Position[][] oldBoard = cloning(board);
-		if(isMoveValid(movLoc,player)) {
+		if(isMoveValid(player)) {
 			if(isMoveCastling(movLoc.getLocFrom())) {
-				castlingMove(movLoc);
-				return true;
-			}else {
-				movePiece(movLoc);
-				if(isInCheck(player)) {
-					System.out.println("Invalid Move : Your king is in check");
-					board = oldBoard.clone();
-					return false;
-				}
+				castlingMove();
 				return true;
 			}
+			movePiece();
+			if(isInCheck(player)) {
+				System.out.println("Invalid Move : Your king is in check");
+				reverseMove(oldBoard);
+				return false;
+			}
+			return true;
+			
 		}else { 
-			System.out.println("Invalid Move "+"\""+board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().getPieceName()+"\" piece");
+			System.out.println("Invalid move");
 			return false;
 		}
 	}
-
 	private Position[][] cloning(Position[][] Board) {
 		Position[][] oldBoard = new Position[10][10];
 		for(int i = 8 ; i > 0 ; i--) {
 			for(int j = 1 ; j < 9 ; j++) {
-				oldBoard[i][j] = board[i][j];
+				oldBoard[i][j] = Board[i][j];
 
 			}
 		
@@ -41,20 +45,30 @@ public class Move {
 		return oldBoard;
 	}
 	
-	private boolean isMoveValid(MoveCoordinate movLoc,char player) {
-		if(!isEnemyPiece(movLoc)) 
+	private void reverseMove(Position[][] Board) {
+		for(int i = 8 ; i > 0 ; i--) {
+			for(int j = 1 ; j < 9 ; j++) {
+				board[i][j] = Board[i][j];
+
+			}
+		
+		}
+	}
+	
+	private boolean isMoveValid(char player) {
+		if(!isEnemyPiece()) 
 			return false;
 		
 		if(!(board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().getPlayer() == player)) 
 			return false;
 		
-		if(!(board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().canMove(movLoc.getLocFrom(),movLoc.getLocTo(),board))) 
+		if(!(board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().canMove(movLoc))) 
 			return false;
 		
 		return true;
 	}
 	
-	private boolean isEnemyPiece(MoveCoordinate movLoc) {
+	private boolean isEnemyPiece() {
 		try {
 			return board[movLoc.getLocToFile()][movLoc.getLocToRank()].getPiece().getPlayer() != board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().getPlayer();
 		} catch (Exception e) {
@@ -66,8 +80,8 @@ public class Move {
 		return isKing(locFrom.getFile(),locFrom.getRank()) && ((King) (board[locFrom.getFile()][locFrom.getRank()].getPiece())).isCastling();
 	}
 	
-	private void castlingMove(MoveCoordinate movLoc) {
-		movePiece(movLoc);
+	private void castlingMove() {
+		movePiece();
 		if(movLoc.getLocToRank()-movLoc.getLocFromRank()==2) {
 			board[movLoc.getLocToFile()][movLoc.getLocToRank()+1].getPiece().setHasMoved(true);
 			board[movLoc.getLocToFile()][movLoc.getLocToRank()-1]= board[movLoc.getLocToFile()][movLoc.getLocToRank()+1];
@@ -80,7 +94,7 @@ public class Move {
 		
 	}
 
-	private void movePiece(MoveCoordinate movLoc) {
+	private void movePiece() {
 		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().setHasMoved(true);
 		board[movLoc.getLocToFile()][movLoc.getLocToRank()]= board[movLoc.getLocFromFile()][movLoc.getLocFromRank()];
 		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()] = null;
@@ -95,7 +109,7 @@ public class Move {
         for(int i = 0; i<board.length; i++){
             for(int j = 0; j<board[0].length; j++){
                 if(board[i][j] != null){
-                    if(board[i][j].getPiece().canMove(new PiecesLocation(i,j), new PiecesLocation(file,rank),board) && 
+                    if(board[i][j].getPiece().canMove(new MoveCoordinate(new PiecesLocation(i,j), new PiecesLocation(file,rank))) && 
                     		board[i][j].getPiece().getPlayer() != player){
                     	return true;
                     }

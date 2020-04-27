@@ -24,30 +24,13 @@ public class Main {
 				print.print();
 				break;
 			case 2:
-				while(true) {
-					Turn('w');
-					Turn('b');
-				}
+				game.startGame();
 			default:
 				break;
 			}
 		}
 	}
 	
-
-
-	private void Turn(char player) {
-		print.clear();
-		String coor = null;
-		String color = (player == 'b') ? "black" : "white"; 
-		print.print();
-		System.out.println(color+" move: ");
-		coor = scan.nextLine();
-		if(!game.coordinateMove(coor,player)) {
-			Turn(player);
-		}
-		
-	}
 
 	private void algebraicOrCoordinate() {
 		System.out.println("1. Algebraic");

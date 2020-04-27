@@ -1,24 +1,24 @@
 package chessEntities;
 
-import chess_games.PiecesLocation;
+import chess_games.MoveCoordinate;
 import chess_games.Position;
 
 public class Bishop extends Pieces {
 	
-	public Bishop(char player) {
-		super('B', player);
+	public Bishop(char player,Position[][] board) {
+		super('B', player,board);
 	}
 	
 	@Override
-	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
-		if(movingStraight(locFrom, locTo)){
+	public boolean canMove(MoveCoordinate movLoc) {
+		if(movingStraight(movLoc)){
 			return false;
 		}
-		if(notMovingDiagonally(locFrom, locTo)){
+		if(notMovingDiagonally(movLoc)){
 			return false;
 		}
 		
-		if(!jumpOverPieceCheck(locFrom, locTo, board)) {
+		if(!jumpOverPieceCheck(movLoc)) {
 			return false;
 		}
 		
@@ -26,15 +26,12 @@ public class Bishop extends Pieces {
 		
 	}
 
-	private boolean jumpOverPieceCheck(PiecesLocation locFrom, PiecesLocation locTo, Position[][] board) {
-		int fileOffSet =(locFrom.getFile() < locTo.getFile()) ? 1:-1;
-		int rankOffSet = (locFrom.getRank() < locTo.getRank()) ? 1:-1;
-		//System.out.println(fileOffSet);
-		//System.out.println(rankOffSet);
-		int y = locFrom.getRank() + rankOffSet;
+	private boolean jumpOverPieceCheck(MoveCoordinate movLoc) {
+		int fileOffSet =(movLoc.getLocFromFile() < movLoc.getLocToFile()) ? 1:-1;
+		int rankOffSet = (movLoc.getLocFromRank() < movLoc.getLocToRank()) ? 1:-1;
+		int y = movLoc.getLocFromRank() + rankOffSet;
 		
-		for(int x = locFrom.getFile()+ fileOffSet; x != locTo.getFile(); x += fileOffSet){
-			//System.out.println(x+" "+""+y+"\n");
+		for(int x = movLoc.getLocFromFile()+ fileOffSet; x != movLoc.getLocToFile(); x += fileOffSet){
 			if(board[x][y] != null ){
 				return false;
 			}
@@ -43,12 +40,12 @@ public class Bishop extends Pieces {
 		} return true;
 	}
 
-	private boolean notMovingDiagonally(PiecesLocation locFrom, PiecesLocation locTo) {
-		return Math.abs(locFrom.getFile() - locTo.getFile()) != Math.abs(locFrom.getRank() - locTo.getRank());
+	private boolean notMovingDiagonally(MoveCoordinate movLoc) {
+		return Math.abs(movLoc.getLocFromFile() - movLoc.getLocToFile()) != Math.abs(movLoc.getLocFromRank() - movLoc.getLocToRank());
 	}
 
-	private boolean movingStraight(PiecesLocation locFrom, PiecesLocation locTo) {
-		return locFrom.getFile() == locTo.getFile() || locFrom.getRank() == locTo.getRank();
+	private boolean movingStraight(MoveCoordinate movLoc) {
+		return movLoc.getLocFromFile() == movLoc.getLocToFile() || movLoc.getLocFromRank() == movLoc.getLocToRank();
 	}
 	
 }

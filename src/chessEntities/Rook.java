@@ -1,25 +1,26 @@
 package chessEntities;
 
+import chess_games.MoveCoordinate;
 import chess_games.PiecesLocation;
 import chess_games.Position;
 public class Rook extends Pieces {
 	
-	public Rook(char player) {
-		super('R', player);
+	public Rook(char player,Position[][] board) {
+		super('R', player,board);
 	}
 	
 	@Override
-	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
+	public boolean canMove(MoveCoordinate movLoc) {
+	
 		
-		
-		if(locFrom.getFile() != locTo.getFile() && locFrom.getRank() != locTo.getRank()){
+		if(movLoc.getLocFromFile() != movLoc.getLocToFile()&& movLoc.getLocFromRank() != movLoc.getLocToRank()){
 			return false;
 		}
 		
-		if(!jumpOverPieceRowCheck(locFrom, locTo, board)) {
+		if(!jumpOverPieceRowCheck(movLoc)) {
 			return false;
 		}
-		if(!jumpOverPieceColumnCheck(locFrom, locTo, board)) {
+		if(!jumpOverPieceColumnCheck(movLoc)) {
 			return false;
 		}
 		
@@ -27,12 +28,15 @@ public class Rook extends Pieces {
 		
 	}
 
-	private boolean jumpOverPieceColumnCheck(PiecesLocation locFrom, PiecesLocation locTo, Position[][] board) {
+	private boolean jumpOverPieceColumnCheck(MoveCoordinate movLoc) {
 		int offset;
-		if(locFrom.getRank() != locTo.getRank()){
-			offset = (locFrom.getRank() < locTo.getRank()) ? 1 : -1;
-			for(int x = locFrom.getRank() + offset; x != locTo.getRank(); x += offset){
-				if(board[locFrom.getFile()][x] != null){
+		int fromRank= movLoc.getLocFromRank();
+		int fromFile= movLoc.getLocFromFile();
+		int toRank = movLoc.getLocToRank();
+		if(fromRank != toRank){
+			offset = (fromRank < toRank) ? 1 : -1;
+			for(int x = fromRank + offset; x != toRank; x += offset){
+				if(board[fromFile][x] != null){
 					return false;
 				}
 			}
@@ -40,12 +44,15 @@ public class Rook extends Pieces {
 		return true;
 	}
 
-	private boolean jumpOverPieceRowCheck(PiecesLocation locFrom, PiecesLocation locTo, Position[][] board) {
+	private boolean jumpOverPieceRowCheck(MoveCoordinate movLoc) {
 		int offset;
-		if(locFrom.getFile() != locTo.getFile()){
-			offset = (locFrom.getFile() < locTo.getFile())? 1: -1;
-			for(int x = locFrom.getFile() + offset; x != locTo.getFile(); x += offset){
-				if(board[x][locFrom.getRank()] != null){
+		int toFile= movLoc.getLocToFile();
+		int fromFile= movLoc.getLocFromFile();
+		int fromRank = movLoc.getLocFromRank();
+		if(fromFile != toFile){
+			offset = (fromFile < toFile)? 1: -1;
+			for(int x = fromFile + offset; x != toFile; x += offset){
+				if(board[x][fromRank] != null){
 					return false;
 				}
 			}

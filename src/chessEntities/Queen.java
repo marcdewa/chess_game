@@ -1,16 +1,16 @@
 package chessEntities;
 
-import chess_games.PiecesLocation;
+import chess_games.MoveCoordinate;
 import chess_games.Position;
 public class Queen extends Pieces {
 	
-	public Queen(char player) {
-		super('Q', player);
+	public Queen(char player,Position[][] board) {
+		super('Q', player,board);
 	}
 	
 	@Override
-	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
-		return new Rook(this.player).canMove(locFrom, locTo,board) || new Bishop(this.player).canMove(locFrom, locTo,board);
+	public boolean canMove(MoveCoordinate movLoc) {
+		return new Rook(this.player,this.board).canMove(movLoc) || new Bishop(this.player,this.board).canMove(movLoc);
 		
 	}
 }

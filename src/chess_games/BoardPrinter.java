@@ -22,6 +22,22 @@ public class BoardPrinter {
 		}
 		System.out.println(" A  B  C  D  E  F  G  H");
 	}
+	
+	public void print(Position[][] board) {
+		
+		for(int i = 8 ; i > 0 ; i--) {
+		
+			for(int j = 1 ; j < 9 ; j++) {
+				
+				if(board[i][j] != null) {
+				System.out.print(" "+board[i][j].getPiece().getPieceName()+" ");
+				}else blackOrWhiteBoardColor(i, j);
+				
+			}
+			System.out.println(" "+(i)+" ");
+		}
+		System.out.println(" A  B  C  D  E  F  G  H");
+	}
 
 	private void blackOrWhiteBoardColor(int i, int j) {
 		if(isEven(i)) {

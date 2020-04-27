@@ -1,7 +1,9 @@
 package chessEntities;
 
+import chess_games.MoveCoordinate;
 import chess_games.PiecesLocation;
 import chess_games.Position;
+
 public class King extends Pieces {
 	private boolean castling;
 	public boolean isCastling() {
@@ -12,34 +14,34 @@ public class King extends Pieces {
 		this.castling = castling;
 	}
 
-	public King(char player) {
-		super('K', player);
+	public King(char player,Position[][] board) {
+		super('K', player,board);
 		this.castling = false;
 		
 	}
 	
 	@Override
-	public boolean canMove(PiecesLocation locFrom,PiecesLocation locTo,Position[][] board) {
-		if(fileDifferenceIsEqualsTo(1,locFrom,locTo) ||rankDifferenceIsEqualsTo(1,locFrom,locTo) ) {
+	public boolean canMove(MoveCoordinate movLoc) {
+		if(fileDifferenceIsEqualsTo(1,movLoc) ||rankDifferenceIsEqualsTo(1,movLoc) ) {
 			return true;
 		}
 		else if(!hasMoved) {
-			return castlingValidation(locFrom, locTo, board);
+			return castlingValidation(movLoc);
 		}
 		return false;
 	}
 
-	private boolean castlingValidation(PiecesLocation locFrom, PiecesLocation locTo, Position[][] board) {
-		if(fileDifferenceIsEqualsTo(0,locFrom,locTo) ){
-			if(kingsideCastlingValidation(locFrom, locTo, board)){
-				if(rookHasMoved(locTo,1,board)) {
+	private boolean castlingValidation(MoveCoordinate movLoc) {
+		if(fileDifferenceIsEqualsTo(0,movLoc) ){
+			if(kingsideCastlingValidation(movLoc)){
+				if(isRookHasMoved(movLoc.getLocTo(),1)) {
 					castling = false;
 					return false;
 				}
 			}
 		
-			else if(queensideCastlingValidation(locFrom, locTo, board)){
-				if(rookHasMoved(locTo,-2,board)) {
+			else if(queensideCastlingValidation(movLoc)){
+				if(isRookHasMoved(movLoc.getLocTo(),-2)) {
 					castling = false;
 					return false;
 				}
@@ -53,15 +55,23 @@ public class King extends Pieces {
 		return true;
 	}
 
-	private boolean rookHasMoved(PiecesLocation locTo, int i, Position[][] board) {
+	private boolean isRookHasMoved(PiecesLocation locTo, int i) {
 		return board[locTo.getFile()][locTo.getRank()+i].getPiece().isHasMoved();
 	}
 
-	private boolean queensideCastlingValidation(PiecesLocation locFrom, PiecesLocation locTo, Position[][] board) {
-		return (locFrom.getRank()>locTo.getRank()) &&(board[locFrom.getFile()][locFrom.getRank() - 1] == null || board[locFrom.getFile()][locFrom.getRank() - 2] == null ||board[locFrom.getFile()][locFrom.getRank() - 3] == null);
+	private boolean queensideCastlingValidation(MoveCoordinate movLoc) {
+		int x = movLoc.getLocFromFile();
+		int y = movLoc.getLocFromRank();
+		return (movLoc.getLocFromRank()>movLoc.getLocToRank()) &&(isBoardNull(x,y-1)|| isBoardNull(x,y-2) ||isBoardNull(x,y-3));
 	}
 
-	private boolean kingsideCastlingValidation(PiecesLocation locFrom, PiecesLocation locTo, Position[][] board) {
-		return (locFrom.getRank()<locTo.getRank())&&(board[locFrom.getFile()][locFrom.getRank() + 1] == null || board[locFrom.getFile()][locFrom.getRank() + 2] == null);
+	private boolean kingsideCastlingValidation(MoveCoordinate movLoc) {
+		int x = movLoc.getLocFromFile(); 
+		int y = movLoc.getLocFromRank(); 
+		return (movLoc.getLocFromRank()<movLoc.getLocToRank())&&(isBoardNull(x,y+1) || isBoardNull(x,y+2));
+	}
+	
+	private boolean isBoardNull(int x , int y) {
+		return board[x][y] == null;
 	}
 }
