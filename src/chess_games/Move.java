@@ -10,7 +10,42 @@ public class Move {
 		this.board = board;
 	}
 	
+	public boolean checkmated(char player) {
+			//System.out.println("1");
+			  if(isMoveCheck(player,1,1)) return false;//System.out.println("2");
+			  if(isMoveCheck(player,-1,-1)) return false;//System.out.println("3");
+			  if(isMoveCheck(player,-1,+1)) return false;//System.out.println("4");
+			  if(isMoveCheck(player,+1,-1)) return false;//System.out.println("5");
+			  if(isMoveCheck(player,0,1)) return false;//System.out.println("6");
+			  if(isMoveCheck(player,0,-1)) return false;//System.out.println("7");
+			  if(isMoveCheck(player,1,0)) return false;//System.out.println("8");
+			  if(isMoveCheck(player,0,1)) return false;//System.out.println("9");
+			  return true;
+		}
 	
+	public boolean isMoveCheck(char player,int x,int y) {
+		PiecesLocation kingPos=kingPosition(player);
+		Position[][] oldBoard = cloning(board);
+		MoveCoordinate movLoc = new MoveCoordinate(kingPos.getFile(),kingPos.getRank(),kingPos.getFile()-x,kingPos.getRank()-y);
+		//System.out.println(kingPos.getFile()+" "+kingPos.getRank()+" "+(kingPos.getFile()-x)+" "+(kingPos.getRank()-y));
+		if(movLoc.getLocToFile()<1 ||movLoc.getLocToFile() >8 ) {
+			return false;
+		}
+		if(movLoc.getLocToRank()<1 ||movLoc.getLocToRank() >8 ) {
+			return false;
+		}
+		//System.out.println(board[kingPos.getFile()][kingPos.getRank()].getPiece().canMove(movLoc) && board[movLoc.getLocToFile()][movLoc.getLocToRank()] == null);
+		if(board[kingPos.getFile()][kingPos.getRank()].getPiece().canMove(movLoc) && board[movLoc.getLocToFile()][movLoc.getLocToRank()] == null) {
+			movePiece(movLoc);
+			if(isInCheck(player)) {
+				reverseMove(oldBoard);
+				return false;
+			}
+			reverseMove(oldBoard);
+			return true;
+		}
+		return false;
+	}
 	
 	public boolean movingPiece(char player,MoveCoordinate movLoc) {
 		this.movLoc = movLoc;
@@ -21,7 +56,12 @@ public class Move {
 				return true;
 			}
 			movePiece();
+			System.out.println(player);
 			if(isInCheck(player)) {
+				if(checkmated(player)) {
+					System.out.println(player +"Lose!");
+					System.exit(0);
+				}
 				System.out.println("Invalid Move : Your king is in check");
 				reverseMove(oldBoard);
 				return false;
@@ -29,6 +69,7 @@ public class Move {
 			return true;
 			
 		}else { 
+			System.out.println("2");
 			System.out.println("Invalid move");
 			return false;
 		}
@@ -99,15 +140,25 @@ public class Move {
 		board[movLoc.getLocToFile()][movLoc.getLocToRank()]= board[movLoc.getLocFromFile()][movLoc.getLocFromRank()];
 		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()] = null;
 	}
-
+	
+	private void movePiece(MoveCoordinate movLoc) {
+		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().setHasMoved(true);
+		board[movLoc.getLocToFile()][movLoc.getLocToRank()]= board[movLoc.getLocFromFile()][movLoc.getLocFromRank()];
+		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()] = null;
+	}
+	
+//	private void movePiece(int x , int y ,int i , int j) {
+//		board[i][j]= board[x][y];
+//		board[x][y] = null;
+//	}
 
 
 	public boolean isInCheck(char player){
         PiecesLocation kingPos = kingPosition(player);
         int file = kingPos.getFile();
         int rank = kingPos.getRank();
-        for(int i = 0; i<board.length; i++){
-            for(int j = 0; j<board[0].length; j++){
+        for(int i = 1; i<board.length; i++){
+            for(int j = 1; j<board[0].length; j++){
                 if(board[i][j] != null){
                     if(board[i][j].getPiece().canMove(new MoveCoordinate(new PiecesLocation(i,j), new PiecesLocation(file,rank))) && 
                     		board[i][j].getPiece().getPlayer() != player){

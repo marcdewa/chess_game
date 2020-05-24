@@ -80,7 +80,16 @@ public class Games {
 		print.clear();
 		String coor = null;
 		String color = (player == 'b') ? "black" : "white"; 
+		String colorOpp = (player == 'b') ? "white" : "black"; 
 		print.print();
+		if(move.isInCheck(player)) {
+			if(move.checkmated(player)) {
+				System.out.println(colorOpp +" Win!");
+				System.exit(0);
+			}else {
+				System.out.println("Your king is in check");
+			}
+		}
 		System.out.println(color+" move: ");
 		coor = scan.nextLine();
 		if(!coordinateMove(coor,player)) {

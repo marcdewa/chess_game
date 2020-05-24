@@ -2,6 +2,10 @@ package chess_games;
 
 public class MoveCoordinate {
 
+
+
+
+
 	private PiecesLocation locFrom;
 	private PiecesLocation locTo;
 	
@@ -18,6 +22,13 @@ public class MoveCoordinate {
 	}
 	
 	public MoveCoordinate(PiecesLocation locFrom, PiecesLocation locTo) {
+		this.locFrom = locFrom;
+		this.locTo = locTo;
+	}
+	
+	public MoveCoordinate(int x ,int y , int i ,int j) {
+		PiecesLocation locFrom = new PiecesLocation(x,y);
+		PiecesLocation locTo = new PiecesLocation(i,j);
 		this.locFrom = locFrom;
 		this.locTo = locTo;
 	}
@@ -68,5 +79,9 @@ public class MoveCoordinate {
 	public int getLocFromRank() {
 		return this.locFrom.getRank();
 	}
+
+	
+
+	
 	
 }
