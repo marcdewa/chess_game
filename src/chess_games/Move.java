@@ -56,12 +56,7 @@ public class Move {
 				return true;
 			}
 			movePiece();
-			System.out.println(player);
 			if(isInCheck(player)) {
-				if(checkmated(player)) {
-					System.out.println(player +"Lose!");
-					System.exit(0);
-				}
 				System.out.println("Invalid Move : Your king is in check");
 				reverseMove(oldBoard);
 				return false;

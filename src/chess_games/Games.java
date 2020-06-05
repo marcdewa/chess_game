@@ -6,10 +6,17 @@ import chessEntities.*;
 
 
 public class Games {
-	Position[][] board ;
-	Move move;
-	BoardPrinter print;
+	public Position[][] board ;
+	public Move move;
+	public BoardPrinter print;
 	Scanner scan ;
+	
+	public Games(String forTest) {
+		print = new BoardPrinter(this);
+		scan = new Scanner(System.in);
+		board = new Position[10][10];
+		move = new Move(board);
+	}
 	
 	public Games() {
 		print = new BoardPrinter(this);
@@ -88,6 +95,11 @@ public class Games {
 				System.exit(0);
 			}else {
 				System.out.println("Your king is in check");
+			}
+		}else {
+			if(move.checkmated(player)) {
+				System.out.println("Draw!");
+				System.exit(0);
 			}
 		}
 		System.out.println(color+" move: ");
