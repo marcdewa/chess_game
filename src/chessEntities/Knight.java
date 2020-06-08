@@ -15,7 +15,7 @@ public class Knight extends Pieces {
 		if(fileDifferenceIsEqualsTo(2,movLoc) && rankDifferenceIsEqualsTo(1,movLoc))
 			return true;
 		
-		if(fileDifferenceIsEqualsTo(1,movLoc)&& rankDifferenceIsEqualsTo(1,movLoc))
+		if(fileDifferenceIsEqualsTo(1,movLoc)&& rankDifferenceIsEqualsTo(2,movLoc))
 			return true;
 		
 		return false;

@@ -1,14 +1,8 @@
 package Test;
 import chess_games.*;
-
-
-
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
-
 import chessEntities.Bishop;
-import chessEntities.Rook;
 
 class BishopTest {
 
