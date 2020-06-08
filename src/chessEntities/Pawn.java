@@ -30,6 +30,8 @@ public class Pawn extends Pieces {
 		int toRank = movLoc.getLocToRank();
 		if ( fileDifferenceIsEqualsTo(1,movLoc)
                 && rankDifferenceIsEqualsTo(0,movLoc) && board[toFile][toRank]==null) {
+            if(board[movLoc.getLocToFile()][movLoc.getLocToRank()] != null) 
+            	return false;
             if (this.player == 'w') {
                 if (fromFile<toFile ) {
                     return true;
@@ -41,6 +43,8 @@ public class Pawn extends Pieces {
                     return true;
                 }
             }
+
+            
         }return false;
 	}
 
@@ -51,6 +55,8 @@ public class Pawn extends Pieces {
 		if (fileDifferenceIsEqualsTo(2,movLoc)
                 && rankDifferenceIsEqualsTo(0,movLoc)
                 && isFirstTurn(movLoc.getLocFrom())) {
+            if(board[movLoc.getLocToFile()][movLoc.getLocToRank()] != null) 
+            	return false;
             if (this.player == 'w') {
                 if (fromFile < toFile) {
                     return true;
@@ -61,6 +67,7 @@ public class Pawn extends Pieces {
                     return true;
                 }
             }
+
             
         }
 		return false;

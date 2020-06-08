@@ -10,42 +10,43 @@ public class Move {
 		this.board = board;
 	}
 	
-	public boolean checkmated(char player) {
-			//System.out.println("1");
-			  if(isMoveCheck(player,1,1)) return false;//System.out.println("2");
-			  if(isMoveCheck(player,-1,-1)) return false;//System.out.println("3");
-			  if(isMoveCheck(player,-1,+1)) return false;//System.out.println("4");
-			  if(isMoveCheck(player,+1,-1)) return false;//System.out.println("5");
-			  if(isMoveCheck(player,0,1)) return false;//System.out.println("6");
-			  if(isMoveCheck(player,0,-1)) return false;//System.out.println("7");
-			  if(isMoveCheck(player,1,0)) return false;//System.out.println("8");
-			  if(isMoveCheck(player,0,1)) return false;//System.out.println("9");
-			  return true;
-		}
+//	public boolean checkmated(char player) {
+//			//System.out.println("1");
+//			  if(isMoveCheck(player,1,1)) return false;//System.out.println("2");
+//			  if(isMoveCheck(player,-1,-1)) return false;//System.out.println("3");
+//			  if(isMoveCheck(player,-1,+1)) return false;//System.out.println("4");
+//			  if(isMoveCheck(player,+1,-1)) return false;//System.out.println("5");
+//			  if(isMoveCheck(player,0,1)) return false;//System.out.println("6");
+//			  if(isMoveCheck(player,0,-1)) return false;//System.out.println("7");
+//			  if(isMoveCheck(player,1,0)) return false;//System.out.println("8");
+//			  if(isMoveCheck(player,0,1)) return false;//System.out.println("9");
+//			  return true;
+//		}
+
 	
-	public boolean isMoveCheck(char player,int x,int y) {
-		PiecesLocation kingPos=kingPosition(player);
-		Position[][] oldBoard = cloning(board);
-		MoveCoordinate movLoc = new MoveCoordinate(kingPos.getFile(),kingPos.getRank(),kingPos.getFile()-x,kingPos.getRank()-y);
-		//System.out.println(kingPos.getFile()+" "+kingPos.getRank()+" "+(kingPos.getFile()-x)+" "+(kingPos.getRank()-y));
-		if(movLoc.getLocToFile()<1 ||movLoc.getLocToFile() >8 ) {
-			return false;
-		}
-		if(movLoc.getLocToRank()<1 ||movLoc.getLocToRank() >8 ) {
-			return false;
-		}
-		//System.out.println(board[kingPos.getFile()][kingPos.getRank()].getPiece().canMove(movLoc) && board[movLoc.getLocToFile()][movLoc.getLocToRank()] == null);
-		if(board[kingPos.getFile()][kingPos.getRank()].getPiece().canMove(movLoc) && board[movLoc.getLocToFile()][movLoc.getLocToRank()] == null) {
-			movePiece(movLoc);
-			if(isInCheck(player)) {
-				reverseMove(oldBoard);
-				return false;
-			}
-			reverseMove(oldBoard);
-			return true;
-		}
-		return false;
-	}
+//	public boolean isMoveCheck(char player,int x,int y) {
+//		PiecesLocation kingPos=kingPosition(player);
+//		Position[][] oldBoard = cloning(board);
+//		MoveCoordinate movLoc = new MoveCoordinate(kingPos.getFile(),kingPos.getRank(),kingPos.getFile()-x,kingPos.getRank()-y);
+//		System.out.println(kingPos.getFile()+" "+kingPos.getRank()+" "+(kingPos.getFile()-x)+" "+(kingPos.getRank()-y));
+//		if(movLoc.getLocToFile()<1 ||movLoc.getLocToFile() >8 ) {
+//			return false;
+//		}
+//		if(movLoc.getLocToRank()<1 ||movLoc.getLocToRank() >8 ) {
+//			return false;
+//		}
+//		System.out.println(board[kingPos.getFile()][kingPos.getRank()].getPiece().canMove(movLoc) && board[movLoc.getLocToFile()][movLoc.getLocToRank()] == null);
+//		if(board[kingPos.getFile()][kingPos.getRank()].getPiece().canMove(movLoc) && board[movLoc.getLocToFile()][movLoc.getLocToRank()] == null) {
+//			movePiece(movLoc);
+//			if(isInCheck(player)) {
+//				reverseMove(oldBoard);
+//				return false;
+//			}
+//			reverseMove(oldBoard);
+//			return true;
+//		}
+//		return false;
+//	}
 	
 	public boolean movingPiece(char player,MoveCoordinate movLoc) {
 		this.movLoc = movLoc;
@@ -57,15 +58,12 @@ public class Move {
 			}
 			movePiece();
 			if(isInCheck(player)) {
-				System.out.println("Invalid Move : Your king is in check");
 				reverseMove(oldBoard);
 				return false;
 			}
 			return true;
 			
 		}else { 
-			System.out.println("2");
-			System.out.println("Invalid move");
 			return false;
 		}
 	}
@@ -142,11 +140,6 @@ public class Move {
 		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()] = null;
 	}
 	
-//	private void movePiece(int x , int y ,int i , int j) {
-//		board[i][j]= board[x][y];
-//		board[x][y] = null;
-//	}
-
 
 	public boolean isInCheck(char player){
         PiecesLocation kingPos = kingPosition(player);
@@ -191,5 +184,95 @@ public class Move {
 	public boolean isKing(int i, int j) {
 		return board[i][j].getPiece().isKing(i, j)|| board[i][j].getPiece().isKing(i, j);
 	}
+	
+	public boolean testStale(char color,Games game) {
+		char colorOpp = (color == 'b') ? 'w' : 'b'; 
+    	Position[][] oldBoard = cloning(board);
+    	int x=1;
+    	int y =2;
+    	int w= 1;
+    	int z =3;
+    	System.out.println(x+" "+y+" "+w+" "+z+" ");
+		try{
+            if(board[y][x] != null){
+            	System.out.println("1");
+            	MoveCoordinate mc = new MoveCoordinate(x,y,w,z,game);
+             	System.out.println("2");
+            	System.out.println(board[z][w].getPiece().getPlayer()!=color);
+            	System.out.println("3");
+            	System.out.println(board[z][w]==null);
+            	System.out.println("4");
+            	System.out.println(board[y][x].getPiece().getPlayer()==color && (board[z][w].getPiece().getPlayer()!=color|| board[z][w]==null));
+                if(board[y][x].getPiece().getPlayer()==color && (board[z][w].getPiece().getPlayer()!=color|| board[z][w]==null)){
+                    //System.out.println(coordinatesToMoveString(x, y, w, z));
+                	//System.out.println("1");
+                	if(board[z][w]==null) {
+                        if(movingPiece(color,mc) && !isInCheck(color)) {
+                                reverseMove(oldBoard);
+                                return true;
+                        }
+                        reverseMove(oldBoard);
+                	}else if(board[z][w].getPiece().getPlayer()!=color) {
+                        if(movingPiece(color,mc) && !isInCheck(color)) {
+                            reverseMove(oldBoard);
+                            return true;
+                        }
+                        reverseMove(oldBoard);
+                	}
+
+                }
+            }
+            reverseMove(oldBoard);
+        } catch(Exception e){
+        	reverseMove(oldBoard);
+        }
+		return false;
+	}
+	
+    public boolean legalMoveCheck(char color,Games game){
+    	//System.out.println(color);
+		char colorOpp = (color == 'b') ? 'w' : 'b'; 
+    	Position[][] oldBoard = cloning(board);
+    	
+        for(int x = 1; x<board.length-1; x++){
+            for(int y = 1; y<board[0].length-1; y++){
+                //Check this piece against every other piece...
+                for(int w = 1; w<board.length-1; w++){
+                    for(int z = 1; z<board[0].length-1; z++){
+                    	//System.out.println(x+" "+y+" "+w+" "+z+" ");
+                        try{
+                            if(board[y][x] != null){
+                            	MoveCoordinate mc = new MoveCoordinate(x,y,w,z,game);
+                                if(board[y][x].getPiece().getPlayer()==color){
+                                    //System.out.println(coordinatesToMoveString(x, y, w, z));
+                                	//System.out.println("1");
+                                	if(board[z][w]==null) {
+                                        if(movingPiece(color,mc) && !isInCheck(color)) {
+                                                reverseMove(oldBoard);
+                                                return true;
+                                        }
+                                        reverseMove(oldBoard);
+                                	}else if(board[z][w].getPiece().getPlayer()!=color) {
+                                        if(movingPiece(color,mc) && !isInCheck(color)) {
+                                            reverseMove(oldBoard);
+                                            return true;
+                                        }
+                                        reverseMove(oldBoard);
+                                	}
+                                }
+                            }
+                            reverseMove(oldBoard);
+                        } catch(Exception e){
+                        	reverseMove(oldBoard);
+                        }
+                    }
+                }
+            }
+        }
+        reverseMove(oldBoard);
+        return false;
+    }
+    
+   
 	
 }

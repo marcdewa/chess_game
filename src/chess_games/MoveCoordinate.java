@@ -26,14 +26,22 @@ public class MoveCoordinate {
 		this.locTo = locTo;
 	}
 	
-	public MoveCoordinate(int x ,int y , int i ,int j) {
+	public MoveCoordinate(int x ,int y , int i ,int j,Games game) throws Exception {
 		PiecesLocation locFrom = new PiecesLocation(x,y);
 		PiecesLocation locTo = new PiecesLocation(i,j);
+		if(inputValidation(locTo, locFrom,game)) {
+			throw new Exception ("invalid coordinate");
+		}
 		this.locFrom = locFrom;
 		this.locTo = locTo;
 	}
 	
 	private boolean inputValidation(PiecesLocation locTo, PiecesLocation locFrom,Games game) {
+		if(locFrom.getFile()==locTo.getFile() && locFrom.getRank()==locTo.getRank()) {
+			//System.out.println("X");
+			return true;
+		}
+		
 		if(game.board[locFrom.getFile()][locFrom.getRank()]==null) 
 			return true;
 		

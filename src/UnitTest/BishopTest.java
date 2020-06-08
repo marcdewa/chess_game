@@ -1,4 +1,4 @@
-package Test;
+package UnitTest;
 import chess_games.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ class BishopTest {
 
 	@Test
 	void correctMovementTest() throws Exception {
-		Games game = new Games("Test");	
+		Games game = new Games();	
 		char player = 'b';
 		int startPoint = 8;
 		game.setNewPieceAt(startPoint,3,new Bishop(player,game.board));
@@ -17,7 +17,7 @@ class BishopTest {
 	}
 	@Test
 	void falseMovementTest1() throws Exception {
-		Games game = new Games("Test");	
+		Games game = new Games();	
 		char player = 'b';
 		int startPoint = 8;
 		game.setNewPieceAt(startPoint,3,new Bishop(player,game.board));
@@ -26,7 +26,7 @@ class BishopTest {
 	}
 	@Test
 	void falseMovementTest2() throws Exception {
-		Games game = new Games("Test");	
+		Games game = new Games();	
 		char player = 'b';
 		int startPoint = 8;
 		game.setNewPieceAt(startPoint,3,new Bishop(player,game.board));
@@ -36,7 +36,7 @@ class BishopTest {
 	
 	@Test
 	void falseMovementTest3() throws Exception {
-		Games game = new Games("Test");	
+		Games game = new Games();	
 		game.setNewPieceAt(8,3,new Bishop('b',game.board));
 		game.setNewPieceAt(7,2,new Bishop('b',game.board));
 		MoveCoordinate mc = new MoveCoordinate("C8-A6",game);

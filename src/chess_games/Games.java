@@ -11,20 +11,11 @@ public class Games {
 	public BoardPrinter print;
 	Scanner scan ;
 	
-	public Games(String forTest) {
-		print = new BoardPrinter(this);
-		scan = new Scanner(System.in);
-		board = new Position[10][10];
-		move = new Move(board);
-	}
-	
 	public Games() {
 		print = new BoardPrinter(this);
 		scan = new Scanner(System.in);
 		board = new Position[10][10];
 		move = new Move(board);
-		defaultPieceLocation('b');
-		defaultPieceLocation('w');
 	}
 	
 	
@@ -77,6 +68,8 @@ public class Games {
 	}
 	
 	public void startGame() {
+		defaultPieceLocation('b');
+		defaultPieceLocation('w');
 		while(true) {
 			Turn('w');
 			Turn('b');
@@ -89,16 +82,19 @@ public class Games {
 		String color = (player == 'b') ? "black" : "white"; 
 		String colorOpp = (player == 'b') ? "white" : "black"; 
 		print.print();
+	//	System.out.println(move.testStale(player,this));;
+		boolean noAnyLegalMove = !move.legalMoveCheck(player,this);
+		//System.out.println(noAnyLegalMove);
 		if(move.isInCheck(player)) {
-			if(move.checkmated(player)) {
+			//System.out.println("1");
+			if(noAnyLegalMove) {
 				System.out.println(colorOpp +" Win!");
 				System.exit(0);
-			}else {
-				System.out.println("Your king is in check");
 			}
 		}else {
-			if(move.checkmated(player)) {
-				System.out.println("Draw!");
+			//System.out.println("2");
+			if(noAnyLegalMove) {
+				System.out.println("Draw");
 				System.exit(0);
 			}
 		}

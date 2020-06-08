@@ -1,4 +1,4 @@
-package Test;
+package UnitTest;
 import chess_games.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,7 @@ class KingTest {
 
 	@Test
 	void correctMovementTest() throws Exception {
-		Games game = new Games("Test");	
+		Games game = new Games();	
 		char player = 'b';
 		int startPoint = 8;
 		game.setNewPieceAt(startPoint,4,new King(player,game.board));
