@@ -13,7 +13,7 @@ public class BoardPrinter {
 		
 			for(int j = 1 ; j < 9 ; j++) {
 				
-				if(game.board[i][j] != null) {
+				if(isBoardNotNull(i, j)) {
 				System.out.print(" "+game.board[i][j].getPiece().getPieceName()+" ");
 				}else blackOrWhiteBoardColor(i, j);
 				
@@ -22,35 +22,23 @@ public class BoardPrinter {
 		}
 		System.out.println(" A  B  C  D  E  F  G  H");
 	}
-	
-	public void print(Position[][] board) {
-		
-		for(int i = 8 ; i > 0 ; i--) {
-		
-			for(int j = 1 ; j < 9 ; j++) {
-				
-				if(board[i][j] != null) {
-				System.out.print(" "+board[i][j].getPiece().getPieceName()+" ");
-				}else blackOrWhiteBoardColor(i, j);
-				
-			}
-			System.out.println(" "+(i)+" ");
-		}
-		System.out.println(" A  B  C  D  E  F  G  H");
+
+	private boolean isBoardNotNull(int i, int j) {
+		return game.board[i][j] != null;
 	}
+	
 
 	private void blackOrWhiteBoardColor(int i, int j) {
 		if(isEven(i)) {
-			if(isEven(j)) {
-				System.out.print(" + ");
-			}
+			
+			if(isEven(j))System.out.print(" + ");
 			else System.out.print(" - ");
+			
 		}
 		else {
-				if(isEven(j)) {
-					System.out.print(" - ");
-				}
-				else System.out.print(" + ");
+			
+			if(isEven(j)) System.out.print(" - ");
+			else System.out.print(" + ");
 			
 		}
 	}

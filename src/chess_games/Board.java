@@ -2,11 +2,11 @@ package chess_games;
 
 import chessEntities.*;
 
-public class Position {
+public class Board {
 	private Pieces piece;
 	
 	
-	public Position(PiecesLocation loc,Pieces piece){
+	public Board(PiecesLocation loc,Pieces piece){
 		if(loc.getFile()>8 || loc.getRank()>8) {
 			System.out.println("index out of range");
 			System.exit(0);
@@ -21,7 +21,14 @@ public class Position {
 	public void setPiece(Pieces piece) {
 		this.piece = piece;
 	}
-
+	
+	public boolean canMove(MoveCoordinate mc) {
+		return piece.canMove(mc);
+	}
+	
+	public char getPlayer() {
+		return piece.getPlayer();
+	}
 	
 	
 }

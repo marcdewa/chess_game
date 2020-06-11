@@ -1,11 +1,7 @@
 package chess_games;
 
 public class MoveCoordinate {
-
-
-
-
-
+	
 	private PiecesLocation locFrom;
 	private PiecesLocation locTo;
 	
@@ -38,7 +34,6 @@ public class MoveCoordinate {
 	
 	private boolean inputValidation(PiecesLocation locTo, PiecesLocation locFrom,Games game) {
 		if(locFrom.getFile()==locTo.getFile() && locFrom.getRank()==locTo.getRank()) {
-			//System.out.println("X");
 			return true;
 		}
 		

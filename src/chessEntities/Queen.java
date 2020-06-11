@@ -1,10 +1,10 @@
 package chessEntities;
 
 import chess_games.MoveCoordinate;
-import chess_games.Position;
+import chess_games.Board;
 public class Queen extends Pieces {
 	
-	public Queen(char player,Position[][] board) {
+	public Queen(char player,Board[][] board) {
 		super('Q', player,board);
 	}
 	

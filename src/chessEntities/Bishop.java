@@ -1,11 +1,11 @@
 package chessEntities;
 
 import chess_games.MoveCoordinate;
-import chess_games.Position;
+import chess_games.Board;
 
 public class Bishop extends Pieces {
 	
-	public Bishop(char player,Position[][] board) {
+	public Bishop(char player,Board[][] board) {
 		super('B', player,board);
 	}
 	

@@ -2,10 +2,10 @@ package chessEntities;
 
 import chess_games.MoveCoordinate;
 import chess_games.PiecesLocation;
-import chess_games.Position;
+import chess_games.Board;
 public class Rook extends Pieces {
 	
-	public Rook(char player,Position[][] board) {
+	public Rook(char player,Board[][] board) {
 		super('R', player,board);
 	}
 	

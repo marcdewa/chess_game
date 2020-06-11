@@ -6,7 +6,7 @@ import chessEntities.*;
 
 
 public class Games {
-	public Position[][] board ;
+	public Board[][] board ;
 	public Move move;
 	public BoardPrinter print;
 	Scanner scan ;
@@ -14,10 +14,18 @@ public class Games {
 	public Games() {
 		print = new BoardPrinter(this);
 		scan = new Scanner(System.in);
-		board = new Position[10][10];
+		board = new Board[10][10];
 		move = new Move(board);
 	}
 	
+	public void startGame() {
+		defaultPieceLocation('b');
+		defaultPieceLocation('w');
+		while(true) {
+			Turn('w');
+			Turn('b');
+		}
+	}
 	
 	public void defaultPieceLocation(char player) {
 		int startPoint = isBlack(player)? 8 : 1 ; 
@@ -48,10 +56,30 @@ public class Games {
 	}
 	
 	public void setNewPieceAt(int file,int rank,Pieces piece) {
-		board[file][rank] = new Position(new PiecesLocation(file,rank),piece);
+		board[file][rank] = new Board(new PiecesLocation(file,rank),piece);
 	}
 	
-	public boolean coordinateMove(String input,char player)  {
+	private void Turn(char player) {
+		
+		print.clear();
+		
+		String input = null;
+		String color = (player == 'b') ? "black" : "white"; 
+		
+		print.print();
+		isCheckmateOrStalemate(player);
+		
+		System.out.println(color+" move: ");
+		
+		input = scan.nextLine();
+		if(!coordinateMove(input,player)) {
+			System.out.println("Invalid Move");
+			Turn(player);
+		}
+		
+	}
+	
+	private boolean coordinateMove(String input,char player)  {
 		if(input.length() != 5) {
 			System.out.println("invalid coordinate");
 			return false;
@@ -67,44 +95,71 @@ public class Games {
 		
 	}
 	
-	public void startGame() {
-		defaultPieceLocation('b');
-		defaultPieceLocation('w');
-		while(true) {
-			Turn('w');
-			Turn('b');
+
+	private void isCheckmateOrStalemate(char player) {
+		String colorOpp = (player == 'b') ? "white" : "black";
+		boolean noAnyLegalMove = !anyLegalMoveCheck(player);
+		
+		if(isCheckmate(player,noAnyLegalMove)) {
+			System.out.println(colorOpp +" Win!");
+			System.exit(0);
 		}
+		if(isStalemate(player, noAnyLegalMove)) {
+			System.out.println("Draw");
+			System.exit(0);
+		};
+	}
+
+
+	public boolean isCheckmate(char player,boolean noAnyLegalMove) {
+		return noAnyLegalMove && move.isPlayerInCheck(player);
+	}
+
+
+	public boolean isStalemate(char player, boolean noAnyLegalMove) {
+		return noAnyLegalMove && !move.isPlayerInCheck(player);
 	}
 	
-	private void Turn(char player) {
-		print.clear();
-		String coor = null;
-		String color = (player == 'b') ? "black" : "white"; 
-		String colorOpp = (player == 'b') ? "white" : "black"; 
-		print.print();
-	//	System.out.println(move.testStale(player,this));;
-		boolean noAnyLegalMove = !move.legalMoveCheck(player,this);
-		//System.out.println(noAnyLegalMove);
-		if(move.isInCheck(player)) {
-			//System.out.println("1");
-			if(noAnyLegalMove) {
-				System.out.println(colorOpp +" Win!");
-				System.exit(0);
-			}
-		}else {
-			//System.out.println("2");
-			if(noAnyLegalMove) {
-				System.out.println("Draw");
-				System.exit(0);
-			}
-		}
-		System.out.println(color+" move: ");
-		coor = scan.nextLine();
-		if(!coordinateMove(coor,player)) {
-			Turn(player);
-			
-		}
-		
-	}
+
+	
+    private boolean anyLegalMoveCheck(char color){
+    	Board[][] oldBoard = move.cloning(board);
+    	
+        for(int x = 1; x<board.length-1; x++){
+            for(int y = 1; y<board[0].length-1; y++){
+                for(int w = 1; w<board.length-1; w++){
+                    for(int z = 1; z<board[0].length-1; z++){
+                        try{
+                            if(board[y][x] != null){
+                            	MoveCoordinate mc = new MoveCoordinate(y,x,z,w,this);
+                                if(board[y][x].getPiece().getPlayer()==color){
+                                	if(board[z][w]==null) {
+                                        if(move.movingPiece(color,mc) && !move.isPlayerInCheck(color)) {
+                                     
+                                        	move.reverseMove(oldBoard);
+                                                return true;
+                                        }
+                                        move.reverseMove(oldBoard);
+                                	}else if(board[z][w].getPiece().getPlayer()!=color) {
+                                        if(move.movingPiece(color,mc) && !move.isPlayerInCheck(color)) {
+
+                                        	move.reverseMove(oldBoard);
+                                            return true;
+                                        }
+                                        move.reverseMove(oldBoard);
+                                	}
+                                }
+                            }
+                            move.reverseMove(oldBoard);
+                        } catch(Exception e){
+                        	move.reverseMove(oldBoard);
+                        }
+                    }
+                }
+            }
+        }
+        move.reverseMove(oldBoard);
+        return false;
+    }
 
 }

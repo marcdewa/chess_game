@@ -2,7 +2,7 @@ package chessEntities;
 
 import chess_games.MoveCoordinate;
 import chess_games.PiecesLocation;
-import chess_games.Position;
+import chess_games.Board;
 
 public class King extends Pieces {
 	private boolean castling;
@@ -14,7 +14,7 @@ public class King extends Pieces {
 		this.castling = castling;
 	}
 
-	public King(char player,Position[][] board) {
+	public King(char player,Board[][] board) {
 		super('K', player,board);
 		this.castling = false;
 		
@@ -22,35 +22,44 @@ public class King extends Pieces {
 	
 	@Override
 	public boolean canMove(MoveCoordinate movLoc) {
-		if(fileDifferenceIsEqualsTo(1,movLoc) ||rankDifferenceIsEqualsTo(1,movLoc) ) {
+		if(fileDifferenceIsEqualsTo(1,movLoc) && rankDifferenceIsEqualsTo(0,movLoc) ) {
+			return true;
+		}
+		if(rankDifferenceIsEqualsTo(1,movLoc) && fileDifferenceIsEqualsTo(0,movLoc)) {
+			return true;
+		}
+		if(rankDifferenceIsEqualsTo(1,movLoc) && fileDifferenceIsEqualsTo(1,movLoc)) {
 			return true;
 		}
 		else if(!hasMoved) {
 			return castlingValidation(movLoc);
+			
 		}
 		return false;
 	}
 
 	private boolean castlingValidation(MoveCoordinate movLoc) {
 		if(fileDifferenceIsEqualsTo(0,movLoc) ){
-			if(kingsideCastlingValidation(movLoc)){
-				if(isRookHasMoved(movLoc.getLocTo(),1)) {
+			
+			if(kingsideCastlingValidation(movLoc)
+					&&isRookHasMoved(movLoc.getLocTo(),1)) {
 					castling = false;
 					return false;
 				}
-			}
-		
-			else if(queensideCastlingValidation(movLoc)){
-				if(isRookHasMoved(movLoc.getLocTo(),-2)) {
+			
+			else if(queensideCastlingValidation(movLoc)
+					&& isRookHasMoved(movLoc.getLocTo(),-2))
+				 {
 					castling = false;
 					return false;
 				}
-			}	
-		}else{
-
+				
+		}
+		else{
 			castling = false;
 			return false;
 		}
+		
 		castling = true;
 		return true;
 	}

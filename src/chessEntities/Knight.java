@@ -1,11 +1,11 @@
 package chessEntities;
 
 import chess_games.MoveCoordinate;
-import chess_games.Position;
+import chess_games.Board;
 
 public class Knight extends Pieces {
 	
-	public Knight(char player,Position[][] board) {
+	public Knight(char player,Board[][] board) {
 		super('N', player,board);
 	}
 	

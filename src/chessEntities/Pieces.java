@@ -3,13 +3,13 @@ package chessEntities;
 import chess_games.Games;
 import chess_games.MoveCoordinate;
 import chess_games.PiecesLocation;
-import chess_games.Position;
+import chess_games.Board;
 
 public abstract class Pieces {
 	protected char pieceName;
 	protected char player;
 	protected boolean hasMoved;
-	protected Position[][] board;
+	protected Board[][] board;
 	
 	public abstract boolean canMove(MoveCoordinate moveLoc);
 	
@@ -25,19 +25,12 @@ public abstract class Pieces {
 		return player;
 	}
 
-	public void setPlayer(char player) {
-		this.player = player;
-	}
 
 	public char getPieceName() {
 		return pieceName;
 	}
 
-	public void setPieceName(char pieceName) {
-		this.pieceName = pieceName;
-	}
-
-	public Pieces(char piece , char player,Position[][] board) {
+	public Pieces(char piece , char player,Board[][] board) {
 		this.pieceName = piece;
 		this.player = player;
 		this.hasMoved = false;
@@ -45,16 +38,16 @@ public abstract class Pieces {
 		pieceColorDetermination(player);
 	}
 	
-	public void pieceColorDetermination(char player) {
+	private void pieceColorDetermination(char player) {
 		if(player!='b') pieceName=(char) (pieceName+32);
 	}
 
 	
-	public boolean fileDifferenceIsEqualsTo(int number,MoveCoordinate movLoc) {
+	protected boolean fileDifferenceIsEqualsTo(int number,MoveCoordinate movLoc) {
 		return Math.abs(movLoc.getLocFromFile() - movLoc.getLocToFile()) == number;
 	}
 	
-	public boolean rankDifferenceIsEqualsTo(int number,MoveCoordinate movLoc) {
+	protected boolean rankDifferenceIsEqualsTo(int number,MoveCoordinate movLoc) {
 		return Math.abs(movLoc.getLocFromRank() - movLoc.getLocToRank()) == number;
 	}
 	
