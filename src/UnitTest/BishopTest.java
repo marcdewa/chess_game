@@ -13,7 +13,8 @@ class BishopTest {
 		int startPoint = 8;
 		game.setNewPieceAt(startPoint,3,new Bishop(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("C8-A6",game);
-		assertTrue(game.board[startPoint][3].getPiece().canMove(mc),"bishop only can move diagonally");
+		//game.print.print();
+		assertTrue(game.board[startPoint][3].getPiece().canMove(mc,true),"bishop only can move diagonally");
 	}
 	@Test
 	void falseMovementTest1() throws Exception {
@@ -22,7 +23,7 @@ class BishopTest {
 		int startPoint = 8;
 		game.setNewPieceAt(startPoint,3,new Bishop(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("C8-C6",game);
-		assertFalse(game.board[startPoint][3].getPiece().canMove(mc),"Bishop cant moving straight");
+		assertFalse(game.board[startPoint][3].getPiece().canMove(mc,true),"Bishop cant moving straight");
 	}
 	@Test
 	void falseMovementTest2() throws Exception {
@@ -31,7 +32,7 @@ class BishopTest {
 		int startPoint = 8;
 		game.setNewPieceAt(startPoint,3,new Bishop(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("C8-B6",game);
-		assertFalse(game.board[startPoint][3].getPiece().canMove(mc),"bishop only can move diagonally");
+		assertFalse(game.board[startPoint][3].getPiece().canMove(mc,true),"bishop only can move diagonally");
 	}
 	
 	@Test
@@ -41,7 +42,7 @@ class BishopTest {
 		game.setNewPieceAt(7,2,new Bishop('b',game.board));
 		MoveCoordinate mc = new MoveCoordinate("C8-A6",game);
 		//game.print.print();
-		assertFalse(game.board[8][3].getPiece().canMove(mc),"piece can't jump over piece");
+		assertFalse(game.board[8][3].getPiece().canMove(mc,true),"piece can't jump over piece");
 	}
 	
 }

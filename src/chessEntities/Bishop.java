@@ -10,7 +10,7 @@ public class Bishop extends Pieces {
 	}
 	
 	@Override
-	public boolean canMove(MoveCoordinate movLoc) {
+	public boolean canMove(MoveCoordinate movLoc,boolean execute) {
 		if(movingStraight(movLoc)){
 			return false;
 		}

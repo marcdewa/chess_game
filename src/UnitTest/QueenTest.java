@@ -15,7 +15,7 @@ class QueenTest {
 		char player = 'b';
 		game.setNewPieceAt(8,4,new Queen(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-A8",game);
-		assertTrue(game.board[8][4].getPiece().canMove(mc),"Queen can go straight and diagonally");
+		assertTrue(game.board[8][4].getPiece().canMove(mc,true),"Queen can go straight and diagonally");
 	}
 	
 	@Test
@@ -24,7 +24,7 @@ class QueenTest {
 		char player = 'b';
 		game.setNewPieceAt(8,4,new Queen(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-A5",game);
-		assertTrue(game.board[8][4].getPiece().canMove(mc),"Queen can go straight and diagonally");
+		assertTrue(game.board[8][4].getPiece().canMove(mc,true),"Queen can go straight and diagonally");
 	}
 	@Test
 	void correctMovementTest3() throws Exception {
@@ -32,7 +32,7 @@ class QueenTest {
 		char player = 'b';
 		game.setNewPieceAt(8,4,new Queen(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-D1",game);
-		assertTrue(game.board[8][4].getPiece().canMove(mc),"Queen can go straight and diagonally");
+		assertTrue(game.board[8][4].getPiece().canMove(mc,true),"Queen can go straight and diagonally");
 	}
 	@Test
 	void correctMovementTest4() throws Exception {
@@ -40,7 +40,7 @@ class QueenTest {
 		char player = 'b';
 		game.setNewPieceAt(8,4,new Queen(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-H4",game);
-		assertTrue(game.board[8][4].getPiece().canMove(mc),"Queen can go straight and diagonally");
+		assertTrue(game.board[8][4].getPiece().canMove(mc,true),"Queen can go straight and diagonally");
 	}
 	
 	@Test
@@ -49,7 +49,7 @@ class QueenTest {
 		char player = 'b';
 		game.setNewPieceAt(8,4,new Queen(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-H8",game);
-		assertTrue(game.board[8][4].getPiece().canMove(mc),"Queen can go straight and diagonally");
+		assertTrue(game.board[8][4].getPiece().canMove(mc,true),"Queen can go straight and diagonally");
 	}
 	
 	@Test
@@ -58,7 +58,7 @@ class QueenTest {
 		char player = 'b';
 		game.setNewPieceAt(8,4,new Queen(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-B7",game);
-		assertFalse(game.board[8][4].getPiece().canMove(mc),"Queen only can go straight and diagonally");
+		assertFalse(game.board[8][4].getPiece().canMove(mc,true),"Queen only can go straight and diagonally");
 	}
 	
 	@Test
@@ -67,7 +67,7 @@ class QueenTest {
 		char player = 'b';
 		game.setNewPieceAt(8,4,new Queen(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-C6",game);
-		assertFalse(game.board[8][4].getPiece().canMove(mc),"Queen only can go straight and diagonally");
+		assertFalse(game.board[8][4].getPiece().canMove(mc,true),"Queen only can go straight and diagonally");
 	}
 	
 	@Test
@@ -77,7 +77,7 @@ class QueenTest {
 		game.setNewPieceAt(8,4,new Queen(player,game.board));
 		game.setNewPieceAt(8,5,new Queen(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-H8",game);
-		assertFalse(game.board[8][4].getPiece().canMove(mc),"Queen can't jump over piece");
+		assertFalse(game.board[8][4].getPiece().canMove(mc,true),"Queen can't jump over piece");
 	}
 	
 	

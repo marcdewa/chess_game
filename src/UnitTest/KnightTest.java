@@ -1,5 +1,5 @@
 package UnitTest;
-import chess_games.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import chessEntities.*;
@@ -14,7 +14,7 @@ class KnightTest {
 		char player = 'b';
 		game.setNewPieceAt(8,4,new Knight(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-C6",game);
-		assertTrue(game.board[8][4].getPiece().canMove(mc),"Knight only have certain move");
+		assertTrue(game.board[8][4].getPiece().canMove(mc,true),"Knight only have certain move");
 	}
 	
 	@Test
@@ -23,7 +23,7 @@ class KnightTest {
 		char player = 'b';
 		game.setNewPieceAt(8,4,new Knight(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-B7",game);
-		assertTrue(game.board[8][4].getPiece().canMove(mc),"Knight only have certain move");
+		assertTrue(game.board[8][4].getPiece().canMove(mc,true),"Knight only have certain move");
 	}
 	
 	@Test
@@ -32,7 +32,7 @@ class KnightTest {
 		char player = 'b';
 		game.setNewPieceAt(8,4,new Knight(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-F7",game);
-		assertTrue(game.board[8][4].getPiece().canMove(mc),"Knight only have certain move");
+		assertTrue(game.board[8][4].getPiece().canMove(mc,true),"Knight only have certain move");
 	}
 	
 	
@@ -42,7 +42,7 @@ class KnightTest {
 		char player = 'b';
 		game.setNewPieceAt(8,4,new Knight(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-E6",game);
-		assertTrue(game.board[8][4].getPiece().canMove(mc),"Knight only have certain move");
+		assertTrue(game.board[8][4].getPiece().canMove(mc,true),"Knight only have certain move");
 	}
 	
 	@Test
@@ -53,7 +53,7 @@ class KnightTest {
 		game.setNewPieceAt(7,4,new Pawn(player,game.board));
 		game.setNewPieceAt(7,3,new Pawn(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-C6",game);
-		assertTrue(game.board[8][4].getPiece().canMove(mc),"Knight can jump over other pieces to move");
+		assertTrue(game.board[8][4].getPiece().canMove(mc,true),"Knight can jump over other pieces to move");
 	}
 	
 	@Test
@@ -64,7 +64,7 @@ class KnightTest {
 		int rank = 4;
 		game.setNewPieceAt(file,rank,new Knight(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-D6",game);
-		assertFalse(game.board[file][rank].getPiece().canMove(mc),"Knight cant moving straight");
+		assertFalse(game.board[file][rank].getPiece().canMove(mc,true),"Knight cant moving straight");
 	}
 	
 	@Test
@@ -75,7 +75,7 @@ class KnightTest {
 		int rank = 4;
 		game.setNewPieceAt(file,rank,new Knight(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D8-B6",game);
-		assertFalse(game.board[file][rank].getPiece().canMove(mc),"Knight cant moving diagonally");
+		assertFalse(game.board[file][rank].getPiece().canMove(mc,true),"Knight cant moving diagonally");
 	}
 
 }

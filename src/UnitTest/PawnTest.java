@@ -20,7 +20,7 @@ class PawnTest {
 		game.setNewPieceAt(file,rank,new Pawn(player,game.board));
 		game.setNewPieceAt(file-1,rank+1,new Pawn('w',game.board));
 		MoveCoordinate mc = new MoveCoordinate("D7-E6",game);
-		assertTrue(game.board[file][rank].getPiece().canMove(mc),"Pawn can move +- 1 rank if there is a piece to eat");
+		assertTrue(game.board[file][rank].getPiece().canMove(mc,true),"Pawn can move +- 1 rank if there is a piece to eat");
 	}
 	@Test
 	void correctMovementTest2() throws Exception {
@@ -30,7 +30,7 @@ class PawnTest {
 		int rank = 4;
 		game.setNewPieceAt(file,rank,new Pawn(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D7-D5",game);
-		assertTrue(game.board[file][rank].getPiece().canMove(mc),"Pawn can move 2 step if its their first turn");
+		assertTrue(game.board[file][rank].getPiece().canMove(mc,true),"Pawn can move 2 step if its their first turn");
 	}
 	
 	@Test
@@ -43,7 +43,7 @@ class PawnTest {
 		game.setNewPieceAt(file-1,rank,new Pawn(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D7-D5",game);
 		game.print.print();
-		assertFalse(game.move.movingPiece(player, mc),"Pawn can't jump over pieces with +2 move file");
+		assertFalse(game.move.movingPiece(player, mc,true),"Pawn can't jump over pieces with +2 move file");
 		
 	}
 	
@@ -55,9 +55,9 @@ class PawnTest {
 		int rank = 4;
 		game.setNewPieceAt(file,rank,new Pawn(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D7-D6",game);
-		game.move.movingPiece('b', mc);
+		game.move.movingPiece('b', mc,true);
 		MoveCoordinate mc1 = new MoveCoordinate("D6-D5",game);
-		assertTrue(game.board[file-1][rank].getPiece().canMove(mc1),"Pawn only can +1 file move if not the pawn first turn");
+		assertTrue(game.board[file-1][rank].getPiece().canMove(mc1,true),"Pawn only can +1 file move if not the pawn first turn");
 	}
 	
 	@Test
@@ -68,9 +68,9 @@ class PawnTest {
 		int rank = 4;
 		game.setNewPieceAt(file,rank,new Pawn(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D7-D6",game);
-		game.move.movingPiece('b', mc);
+		game.move.movingPiece('b', mc,true);
 		MoveCoordinate mc1 = new MoveCoordinate("D6-D4",game);
-		assertFalse(game.board[file-1][rank].getPiece().canMove(mc1),"False +2 file move for pawn if not the pawn first turn");
+		assertFalse(game.board[file-1][rank].getPiece().canMove(mc1,true),"False +2 file move for pawn if not the pawn first turn");
 	}
 	
 	@Test
@@ -83,7 +83,7 @@ class PawnTest {
 		game.setNewPieceAt(file-1,rank,new Pawn(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D7-D8",game);
 		//game.print.print();
-		assertFalse(game.move.movingPiece(player, mc),"Pawn can't move backwards");
+		assertFalse(game.move.movingPiece(player, mc,true),"Pawn can't move backwards");
 	}
 	//En passant
 	//Pawn Promotion

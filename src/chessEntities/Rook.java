@@ -1,7 +1,6 @@
 package chessEntities;
 
 import chess_games.MoveCoordinate;
-import chess_games.PiecesLocation;
 import chess_games.Board;
 public class Rook extends Pieces {
 	
@@ -10,7 +9,7 @@ public class Rook extends Pieces {
 	}
 	
 	@Override
-	public boolean canMove(MoveCoordinate movLoc) {
+	public boolean canMove(MoveCoordinate movLoc,boolean execute) {
 	
 		
 		if(movLoc.getLocFromFile() != movLoc.getLocToFile()&& movLoc.getLocFromRank() != movLoc.getLocToRank()){

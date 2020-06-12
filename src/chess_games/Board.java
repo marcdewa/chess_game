@@ -22,12 +22,12 @@ public class Board {
 		this.piece = piece;
 	}
 	
-	public boolean canMove(MoveCoordinate mc) {
-		return piece.canMove(mc);
+	public boolean canMove(MoveCoordinate mc, boolean b) {
+		return piece.canMove(mc,b);
 	}
 	
-	public char getPlayer() {
-		return piece.getPlayer();
+	public char getColor() {
+		return piece.getPlayer().getColor();
 	}
 	
 	

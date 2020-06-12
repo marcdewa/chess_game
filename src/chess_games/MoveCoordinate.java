@@ -6,14 +6,6 @@ public class MoveCoordinate {
 	private PiecesLocation locTo;
 	private char promotedPiece ;
 	
-	public char getPromotedPiece() {
-		return promotedPiece;
-	}
-
-	public void setPromotedPiece(char promotedPiece) {
-		this.promotedPiece = promotedPiece;
-	}
-
 	public MoveCoordinate(String input,Games game) throws Exception {
 		PiecesLocation locFrom;
 		PiecesLocation locTo;
@@ -37,25 +29,27 @@ public class MoveCoordinate {
 		this.locTo = locTo;
 	}
 	
-	private boolean isPromotedInputValid(String input) {
-		return input.length()==6 && (input.charAt(5)=='Q'||input.charAt(5)=='R'||input.charAt(5)=='B'||input.charAt(5)=='N');
-	}
-	
 	public MoveCoordinate(PiecesLocation locFrom, PiecesLocation locTo) {
 		this.locFrom = locFrom;
 		this.locTo = locTo;
 	}
 	
+	
 	public MoveCoordinate(int x ,int y , int i ,int j,Games game) throws Exception {
 		PiecesLocation locFrom = new PiecesLocation(x,y);
 		PiecesLocation locTo = new PiecesLocation(i,j);
-		if(inputValidation(locTo, locFrom,game)) {
-			throw new Exception ("invalid coordinate");
-		}
+		
 		this.locFrom = locFrom;
 		this.locTo = locTo;
 	}
 	
+	
+	private boolean isPromotedInputValid(String input) {
+		return input.length()==6 && (input.charAt(5)=='Q'||input.charAt(5)=='R'||input.charAt(5)=='B'||input.charAt(5)=='N');
+	}
+	
+
+
 	private boolean inputValidation(PiecesLocation locTo, PiecesLocation locFrom,Games game) {
 		if(locFrom.getFile()==locTo.getFile() && locFrom.getRank()==locTo.getRank()) {
 			return true;
@@ -107,6 +101,13 @@ public class MoveCoordinate {
 		return this.locFrom.getRank();
 	}
 
+	public char getPromotedPiece() {
+		return promotedPiece;
+	}
+
+	public void setPromotedPiece(char promotedPiece) {
+		this.promotedPiece = promotedPiece;
+	}
 	
 
 	

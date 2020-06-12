@@ -11,86 +11,48 @@ public class Move {
 		this.board = board;
 	}
 	
-	public boolean movingPiece(char player,MoveCoordinate movLoc) {
+	public boolean movingPiece(char player,MoveCoordinate movLoc,boolean execute) {
 		this.movLoc = movLoc;
-		Board[][] oldBoard = cloning(board);
-		//tambahin di isMoveValid kalok input ada target promotion tapi move bkn promotion return false
-		if(isMoveValid(player)) {
-			if(isMovePawnPromotion(player,movLoc)) {
+		if(isMoveValid(player,execute)) {
+			
+			if(isMovePawnPromotion(player)) {
 				pawnPromotionMove(player);
 				return true;
 			}
 			
-			else if(isMoveCastling(movLoc.getLocFrom())) {
+			else if(isMoveEnPassant(player)) {
+				enPassantMove(player);
+				return true;
+			}
+			
+			else if(isMoveCastling()) {
 				castlingMove();
 				return true;
 			}
 			performMove();
-			
-			if(isPlayerInCheck(player)) {
-				reverseMove(oldBoard);
-				return false;
-			}
 			return true;
 			
 		}
 		else return false;
 		
 	}
-
 	
-	
-	public Board[][] cloning(Board[][] Board) {
-		Board[][] oldBoard = new Board[10][10];
-		for(int i = 8 ; i > 0 ; i--) {
-			for(int j = 1 ; j < 9 ; j++) {
-				oldBoard[i][j] = Board[i][j];
-
-			}
-		
-		}
-		return oldBoard;
-	}
-	
-	public void reverseMove(Board[][] Board) {
-		for(int i = 8 ; i > 0 ; i--) {
-			for(int j = 1 ; j < 9 ; j++) {
-				board[i][j] = Board[i][j];
-			}
-		}
-	}
-	
-	private boolean isMoveValid(char player) {
+	private boolean isMoveValid(char player,boolean execute) {
 		if(!isEnemyPiece()) 
 			return false;
-		
-		if(!(board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPlayer() == player)) 
+		if(!(board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getColor() == player)) 
 			return false;
-		
-		if(!(board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].canMove(movLoc))) 
+		if(!(board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].canMove(movLoc,execute))) 
 			return false;
-		
 		if(movLoc.getPromotedPiece() != '\u0000' && !((Pawn) (board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece())).isPromoted)
 			return false;
-		
 		return true;
 	}
 	
-	private boolean isEnemyPiece() {
-		try {
-			return board[movLoc.getLocToFile()][movLoc.getLocToRank()].getPlayer() != board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPlayer();
-		} catch (Exception e) {
-			return true;
-		}
-	}
-
-	private boolean isMovePawnPromotion(char player,MoveCoordinate mc) {
-		return isPawn(mc.getLocFromFile(),mc.getLocFromRank()) && ((Pawn) (board[mc.getLocFromFile()][mc.getLocFromRank()].getPiece())).isPromoted;
-
-	}
-	
-	private boolean isMoveCastling(PiecesLocation locFrom) {
-		return isKing(locFrom.getFile(),locFrom.getRank()) && ((King) (board[locFrom.getFile()][locFrom.getRank()].getPiece())).isCastling();
+	private void performMove() {
+		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().setHasMoved(true);
+		board[movLoc.getLocToFile()][movLoc.getLocToRank()]= board[movLoc.getLocFromFile()][movLoc.getLocFromRank()];
+		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()] = null;
 	}
 	
 	private void pawnPromotionMove(char player) {
@@ -108,9 +70,39 @@ public class Move {
 		}
 		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()]=null;
 	}
+	
 	public void setNewPieceAt(int file,int rank,Pieces piece) {
 		board[file][rank] = new Board(new PiecesLocation(file,rank),piece);
 	}
+	
+	private boolean isMovePawnPromotion(char player) {
+		return isPawn(movLoc.getLocFromFile(),movLoc.getLocFromRank()) && ((Pawn) (board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece())).isPromoted;
+
+	}
+	
+	private void enPassantMove(char player) {
+		if(player == 'b') {
+			board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().setHasMoved(true);
+			board[movLoc.getLocToFile()][movLoc.getLocToRank()]= board[movLoc.getLocFromFile()][movLoc.getLocFromRank()];
+			board[movLoc.getLocFromFile()][movLoc.getLocFromRank()] = null;
+			board[movLoc.getLocFromFile()][movLoc.getLocToRank()] = null;
+		}
+		if(player == 'w') {
+			board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().setHasMoved(true);
+			board[movLoc.getLocToFile()][movLoc.getLocToRank()]= board[movLoc.getLocFromFile()][movLoc.getLocFromRank()];
+			board[movLoc.getLocFromFile()][movLoc.getLocFromRank()] = null;
+			board[movLoc.getLocFromFile()][movLoc.getLocToRank()] = null;
+		}
+		
+	}
+	
+	private boolean isMoveEnPassant(char player) {
+		return isPawn(movLoc.getLocFromFile(),movLoc.getLocFromRank()) && ((Pawn) (board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece())).isEnPassant;
+
+	}
+	
+
+
 	private void castlingMove() {
 		performMove();
 		if(movLoc.getLocToRank()-movLoc.getLocFromRank()==2) {
@@ -124,58 +116,52 @@ public class Move {
 		}
 		
 	}
+	
 
-	private void performMove() {
-		
-		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().setHasMoved(true);
-		board[movLoc.getLocToFile()][movLoc.getLocToRank()]= board[movLoc.getLocFromFile()][movLoc.getLocFromRank()];
-		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()] = null;
+	
+	private boolean isMoveCastling() {
+		PiecesLocation locFrom = movLoc.getLocFrom();
+		return isKing(locFrom.getFile(),locFrom.getRank()) && ((King) (board[locFrom.getFile()][locFrom.getRank()].getPiece())).isCastling();
 	}
 	
-
-	public boolean isPlayerInCheck(char player){
-        PiecesLocation kingPos = kingPosition(player);
-        int file = kingPos.getFile();
-        int rank = kingPos.getRank();
-        for(int i = 1; i<board.length; i++){
-            for(int j = 1; j<board[0].length; j++){
-                if(board[i][j] != null){
-                    if(board[i][j].canMove(new MoveCoordinate(new PiecesLocation(i,j), new PiecesLocation(file,rank))) && 
-                    		board[i][j].getPlayer() != player){
-                    	return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-	
-	private PiecesLocation kingPosition(char player) {
-		int file = 0;
-		int rank = 0;
-		
-		for(int i = 8 ; i > 0 ; i--) {
-			
-			for(int j = 1 ; j < 9 ; j++) {
-				
-				if(board[i][j] != null && isKing(i, j) && board[i][j].getPlayer() == player) {
-					file=i;
-					rank=j;
-					break;
-				}
-				
-			}
-
+	private boolean isEnemyPiece() {
+		try {
+			return board[movLoc.getLocToFile()][movLoc.getLocToRank()].getColor() != board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getColor();
+		} catch (Exception e) {
+			return true;
 		}
+	}
+	
+
+	
+	public Board[][] cloning(Board[][] Board) {
+		Board[][] oldBoard = new Board[10][10];
+		for(int i = 8 ; i > 0 ; i--) {
+			for(int j = 1 ; j < 9 ; j++) {
+				oldBoard[i][j] = Board[i][j];
+
+			}
 		
-		return new PiecesLocation(file,rank);
+		}
+		return oldBoard;
 	}
-	private boolean isKing(int i, int j) {
-		return board[i][j].getPiece().isKing(i, j)|| board[i][j].getPiece().isKing(i, j);
+	
+	public void reverseMove(Board[][] Board) {
+		for(int i = 8 ; i > 0 ; i--) {
+			for(int j = 1 ; j < 9 ; j++) {
+				this.board[i][j] = Board[i][j];
+			}
+		}
 	}
+	
+
 	
 	private boolean isPawn(int i, int j) {
 		return board[i][j].getPiece().isPawn(i, j)|| board[i][j].getPiece().isPawn(i, j);
+	}
+	
+	public boolean isKing(int i, int j) {
+		return board[i][j].getPiece().isKing(i, j)|| board[i][j].getPiece().isKing(i, j);
 	}
 	
 }

@@ -1,17 +1,27 @@
 package chessEntities;
 
-import chess_games.Games;
+
 import chess_games.MoveCoordinate;
-import chess_games.PiecesLocation;
 import chess_games.Board;
+import chess_games.Player;
 
 public abstract class Pieces {
+	
 	protected char pieceName;
-	protected char player;
+	protected Player player;
+	
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
 	protected boolean hasMoved;
 	protected Board[][] board;
 	
-	public abstract boolean canMove(MoveCoordinate moveLoc);
+	public abstract boolean canMove(MoveCoordinate moveLoc,boolean execute);
 	
 	public boolean isHasMoved() {
 		return hasMoved;
@@ -21,25 +31,15 @@ public abstract class Pieces {
 		this.hasMoved = hasMoved;
 	}
 
-	public char getPlayer() {
-		return player;
-	}
-
-
 	public char getPieceName() {
 		return pieceName;
 	}
 
 	public Pieces(char piece , char player,Board[][] board) {
-		this.pieceName = piece;
-		this.player = player;
+		this.player = new Player(player);
+		this.pieceName = (char) (piece + this.player.isBlackOrWhite());
 		this.hasMoved = false;
 		this.board = board;
-		pieceColorDetermination(player);
-	}
-	
-	private void pieceColorDetermination(char player) {
-		if(player!='b') pieceName=(char) (pieceName+32);
 	}
 
 	
@@ -58,6 +58,7 @@ public abstract class Pieces {
 	public boolean isPawn(int i, int j) {
 		return pieceName=='P'|| pieceName=='p';
 	}
+
 	
 	
 

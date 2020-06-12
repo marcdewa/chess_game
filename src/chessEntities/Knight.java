@@ -10,7 +10,7 @@ public class Knight extends Pieces {
 	}
 	
 	@Override
-	public boolean canMove(MoveCoordinate movLoc) {
+	public boolean canMove(MoveCoordinate movLoc ,boolean execute) {
 		
 		if(fileDifferenceIsEqualsTo(2,movLoc) && rankDifferenceIsEqualsTo(1,movLoc))
 			return true;

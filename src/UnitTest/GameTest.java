@@ -27,7 +27,8 @@ class GameTest {
 			Method legalMove = game.getClass().getDeclaredMethod("anyLegalMoveCheck",char.class);
 			legalMove.setAccessible(true);
 			boolean isAnyLegalMove = !(boolean) legalMove.invoke(game, player);
-			assertTrue(game.isStalemate(player,isAnyLegalMove),"Black is in stalemate condition");
+			boolean isChecked = game.isChecked(player);
+			assertTrue(game.isStalemate(player,isAnyLegalMove,isChecked),"Black is in stalemate condition");
 		} catch (Exception e) {
 			fail(e);
 		}
@@ -48,7 +49,8 @@ class GameTest {
 			Method legalMove = game.getClass().getDeclaredMethod("anyLegalMoveCheck",char.class);
 			legalMove.setAccessible(true);
 			boolean isAnyLegalMove = !(boolean) legalMove.invoke(game, player);
-			assertTrue(game.isStalemate(player,isAnyLegalMove),"Black is in stalemate condition");
+			boolean isChecked = game.isChecked(player);
+			assertTrue(game.isStalemate(player,isAnyLegalMove,isChecked),"Black is in stalemate condition");
 		} catch (Exception e) {
 			fail(e);
 		}
@@ -71,7 +73,8 @@ class GameTest {
 			Method legalMove = game.getClass().getDeclaredMethod("anyLegalMoveCheck",char.class);
 			legalMove.setAccessible(true);
 			boolean isAnyLegalMove = !(boolean) legalMove.invoke(game, player);
-			assertTrue(game.isCheckmate(player,isAnyLegalMove),"Black is in checkmate condition");
+			boolean isChecked = game.isChecked(player);
+			assertTrue(game.isCheckmate(player,isAnyLegalMove,isChecked),"Black is in checkmate condition");
 		} catch (Exception e) {
 			fail(e);
 		}
@@ -85,7 +88,7 @@ class GameTest {
 		game.setNewPieceAt(8,1,new Rook('w',game.board));
 		//game.print.print();
 		MoveCoordinate mc = new MoveCoordinate("A8-B8",game);
-		assertFalse(game.move.movingPiece('w', mc),"Pieces can't eat own color piece");
+		assertFalse(game.move.movingPiece('w', mc,true),"Pieces can't eat own color piece");
 	}
 	
 	@Test
@@ -96,7 +99,8 @@ class GameTest {
 		game.setNewPieceAt(1,1,new Rook('w',game.board));
 		//game.print.print();
 		MoveCoordinate mc = new MoveCoordinate("A1-A2",game);
-		assertFalse(game.move.movingPiece('w', mc),"Invalid move if the king is in check");
+		game.move.movingPiece('w', mc,true);
+		assertTrue(game.isChecked('w'),"Invalid move if the king is in check");
 	}
 	
 //	@Test
@@ -123,7 +127,6 @@ class GameTest {
 	void gamesCheck5() throws Exception {
 		Games game = new Games();
 		game.defaultPieceLocation('b');
-		int startPoint=8;
 		//game.print.print();
 		//MoveCoordinate mc = new MoveCoordinate("D8-E8",game);
 		assertTrue(true,"Make all new pieces in default position");

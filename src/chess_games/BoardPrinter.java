@@ -13,9 +13,9 @@ public class BoardPrinter {
 		
 			for(int j = 1 ; j < 9 ; j++) {
 				
-				if(isBoardNotNull(i, j)) {
+				if(!isBoardNull(i, j)) {
 				System.out.print(" "+game.board[i][j].getPiece().getPieceName()+" ");
-				}else blackOrWhiteBoardColor(i, j);
+				}else plusOrMinusSymbol(i, j);
 				
 			}
 			System.out.println(" "+(i)+" ");
@@ -23,12 +23,12 @@ public class BoardPrinter {
 		System.out.println(" A  B  C  D  E  F  G  H");
 	}
 
-	private boolean isBoardNotNull(int i, int j) {
-		return game.board[i][j] != null;
+	private boolean isBoardNull(int i, int j) {
+		return game.board[i][j] == null;
 	}
 	
 
-	private void blackOrWhiteBoardColor(int i, int j) {
+	private void plusOrMinusSymbol(int i, int j) {
 		if(isEven(i)) {
 			
 			if(isEven(j))System.out.print(" + ");
