@@ -55,6 +55,10 @@ public abstract class Pieces {
 		return pieceName=='K'|| pieceName=='k';
 	}
 	
+	public boolean isPawn(int i, int j) {
+		return pieceName=='P'|| pieceName=='p';
+	}
+	
 	
 
 }

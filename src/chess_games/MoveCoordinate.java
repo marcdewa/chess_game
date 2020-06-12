@@ -4,10 +4,30 @@ public class MoveCoordinate {
 	
 	private PiecesLocation locFrom;
 	private PiecesLocation locTo;
+	private char promotedPiece ;
 	
+	public char getPromotedPiece() {
+		return promotedPiece;
+	}
+
+	public void setPromotedPiece(char promotedPiece) {
+		this.promotedPiece = promotedPiece;
+	}
+
 	public MoveCoordinate(String input,Games game) throws Exception {
-		PiecesLocation locFrom = coordinateToInteger(input,0,2);
-		PiecesLocation locTo = coordinateToInteger(input,3,5);
+		PiecesLocation locFrom;
+		PiecesLocation locTo;
+		if(isPromotedInputValid(input)) {
+			locFrom = coordinateToInteger(input,0,2);
+			locTo = coordinateToInteger(input,3,5);
+			promotedPiece= input.charAt(5);
+		}
+		else if(input.length()==5) {
+			locFrom = coordinateToInteger(input,0,2);
+			locTo = coordinateToInteger(input,3,5);
+		}else {
+			throw new Exception ("invalid coordinate");
+		}
 		
 		if(inputValidation(locTo, locFrom,game)) {
 			throw new Exception ("invalid coordinate");
@@ -15,6 +35,10 @@ public class MoveCoordinate {
 		
 		this.locFrom = locFrom;
 		this.locTo = locTo;
+	}
+	
+	private boolean isPromotedInputValid(String input) {
+		return input.length()==6 && (input.charAt(5)=='Q'||input.charAt(5)=='R'||input.charAt(5)=='B'||input.charAt(5)=='N');
 	}
 	
 	public MoveCoordinate(PiecesLocation locFrom, PiecesLocation locTo) {

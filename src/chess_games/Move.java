@@ -1,6 +1,7 @@
 package chess_games;
 
-import chessEntities.King;
+
+import chessEntities.*;
 
 public class Move {
 	Board[][] board;
@@ -13,10 +14,14 @@ public class Move {
 	public boolean movingPiece(char player,MoveCoordinate movLoc) {
 		this.movLoc = movLoc;
 		Board[][] oldBoard = cloning(board);
-		
-		
+		//tambahin di isMoveValid kalok input ada target promotion tapi move bkn promotion return false
 		if(isMoveValid(player)) {
-			if(isMoveCastling(movLoc.getLocFrom())) {
+			if(isMovePawnPromotion(player,movLoc)) {
+				pawnPromotionMove(player);
+				return true;
+			}
+			
+			else if(isMoveCastling(movLoc.getLocFrom())) {
 				castlingMove();
 				return true;
 			}
@@ -33,6 +38,8 @@ public class Move {
 		
 	}
 
+	
+	
 	public Board[][] cloning(Board[][] Board) {
 		Board[][] oldBoard = new Board[10][10];
 		for(int i = 8 ; i > 0 ; i--) {
@@ -63,6 +70,9 @@ public class Move {
 		if(!(board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].canMove(movLoc))) 
 			return false;
 		
+		if(movLoc.getPromotedPiece() != '\u0000' && !((Pawn) (board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece())).isPromoted)
+			return false;
+		
 		return true;
 	}
 	
@@ -74,10 +84,33 @@ public class Move {
 		}
 	}
 
+	private boolean isMovePawnPromotion(char player,MoveCoordinate mc) {
+		return isPawn(mc.getLocFromFile(),mc.getLocFromRank()) && ((Pawn) (board[mc.getLocFromFile()][mc.getLocFromRank()].getPiece())).isPromoted;
+
+	}
+	
 	private boolean isMoveCastling(PiecesLocation locFrom) {
 		return isKing(locFrom.getFile(),locFrom.getRank()) && ((King) (board[locFrom.getFile()][locFrom.getRank()].getPiece())).isCastling();
 	}
 	
+	private void pawnPromotionMove(char player) {
+		if(movLoc.getPromotedPiece() == 'Q') {
+			setNewPieceAt(movLoc.getLocToFile(),movLoc.getLocToRank(),new Queen(player,board));
+		}
+		else if(movLoc.getPromotedPiece() == 'R') {
+			setNewPieceAt(movLoc.getLocToFile(),movLoc.getLocToRank(),new Rook(player,board));
+		}
+		else if(movLoc.getPromotedPiece() == 'N') {
+			setNewPieceAt(movLoc.getLocToFile(),movLoc.getLocToRank(),new Knight(player,board));
+		}
+		else if(movLoc.getPromotedPiece() == 'B') {
+			setNewPieceAt(movLoc.getLocToFile(),movLoc.getLocToRank(),new Bishop(player,board));
+		}
+		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()]=null;
+	}
+	public void setNewPieceAt(int file,int rank,Pieces piece) {
+		board[file][rank] = new Board(new PiecesLocation(file,rank),piece);
+	}
 	private void castlingMove() {
 		performMove();
 		if(movLoc.getLocToRank()-movLoc.getLocFromRank()==2) {
@@ -140,4 +173,9 @@ public class Move {
 	private boolean isKing(int i, int j) {
 		return board[i][j].getPiece().isKing(i, j)|| board[i][j].getPiece().isKing(i, j);
 	}
+	
+	private boolean isPawn(int i, int j) {
+		return board[i][j].getPiece().isPawn(i, j)|| board[i][j].getPiece().isPawn(i, j);
+	}
+	
 }

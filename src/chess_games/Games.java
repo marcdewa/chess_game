@@ -79,12 +79,7 @@ public class Games {
 		
 	}
 	
-	private boolean coordinateMove(String input,char player)  {
-		if(input.length() != 5) {
-			System.out.println("invalid coordinate");
-			return false;
-		}
-		
+	private boolean coordinateMove(String input,char player)  {		
 		try {
 			MoveCoordinate movLoc = new MoveCoordinate(input,this);
 			return move.movingPiece(player,movLoc);
