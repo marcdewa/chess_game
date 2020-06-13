@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import chessEntities.*;
+import chess_games.BoardPrinter;
 import chess_games.Games;
 import chess_games.MoveCoordinate;
 
@@ -36,13 +37,14 @@ class PawnTest {
 	@Test
 	void correctMovementTest3() throws Exception {
 		Games game = new Games();	
+		BoardPrinter print = new BoardPrinter(game);
 		char player = 'b';
 		int file = 7;
 		int rank = 4;
 		game.setNewPieceAt(file,rank,new Pawn(player,game.board));
 		game.setNewPieceAt(file-1,rank,new Pawn(player,game.board));
 		MoveCoordinate mc = new MoveCoordinate("D7-D5",game);
-		game.print.print();
+		print.print();
 		assertFalse(game.move.movingPiece(player, mc,true),"Pawn can't jump over pieces with +2 move file");
 		
 	}

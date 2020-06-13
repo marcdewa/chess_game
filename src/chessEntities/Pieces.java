@@ -9,32 +9,11 @@ public abstract class Pieces {
 	
 	protected char pieceName;
 	protected Player player;
-	
-	public Player getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-
 	protected boolean hasMoved;
 	protected Board[][] board;
 	
 	public abstract boolean canMove(MoveCoordinate moveLoc,boolean execute);
 	
-	public boolean isHasMoved() {
-		return hasMoved;
-	}
-
-	public void setHasMoved(boolean hasMoved) {
-		this.hasMoved = hasMoved;
-	}
-
-	public char getPieceName() {
-		return pieceName;
-	}
-
 	public Pieces(char piece , char player,Board[][] board) {
 		this.player = new Player(player);
 		this.pieceName = (char) (piece + this.player.isBlackOrWhite());
@@ -59,6 +38,27 @@ public abstract class Pieces {
 		return pieceName=='P'|| pieceName=='p';
 	}
 
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+	
+	public boolean isHasMoved() {
+		return hasMoved;
+	}
+
+	public void setHasMoved(boolean execute,boolean hasMoved) {
+		boolean temp = this.hasMoved;
+		this.hasMoved = hasMoved;
+		if(!execute) this.hasMoved=temp;
+	}
+
+	public char getPieceName() {
+		return pieceName;
+	}
 	
 	
 

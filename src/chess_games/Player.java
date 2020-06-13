@@ -18,7 +18,7 @@ public class Player {
 	
 	public int isBlackOrWhite() {
 		int number=0;
-		if(this.color=='b') return number+=32;
+		if(this.color=='w') return number+=32;
 		return number;
 		
 	}

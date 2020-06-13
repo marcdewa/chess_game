@@ -14,22 +14,23 @@ public class Move {
 	public boolean movingPiece(char player,MoveCoordinate movLoc,boolean execute) {
 		this.movLoc = movLoc;
 		if(isMoveValid(player,execute)) {
-			
 			if(isMovePawnPromotion(player)) {
 				pawnPromotionMove(player);
 				return true;
 			}
 			
 			else if(isMoveEnPassant(player)) {
-				enPassantMove(player);
+				
+				enPassantMove(player,execute);
 				return true;
 			}
 			
 			else if(isMoveCastling()) {
-				castlingMove();
+				castlingMove(execute);
 				return true;
 			}
-			performMove();
+			
+			performMove(execute);
 			return true;
 			
 		}
@@ -38,19 +39,22 @@ public class Move {
 	}
 	
 	private boolean isMoveValid(char player,boolean execute) {
+		int fromFile = movLoc.getLocFromFile();
+		int fromRank = movLoc.getLocFromRank();
 		if(!isEnemyPiece()) 
 			return false;
-		if(!(board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getColor() == player)) 
+		if(!(board[fromFile][fromRank].getColor() == player)) 
 			return false;
-		if(!(board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].canMove(movLoc,execute))) 
+		if(!(board[fromFile][fromRank].canMove(movLoc,execute))) 
 			return false;
-		if(movLoc.getPromotedPiece() != '\u0000' && !((Pawn) (board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece())).isPromoted)
+		if(movLoc.getPromotedPiece() != '\u0000' && !((Pawn) (board[fromFile][fromRank].getPiece())).isPromoted())
 			return false;
+		
 		return true;
 	}
 	
-	private void performMove() {
-		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().setHasMoved(true);
+	private void performMove(boolean execute) {
+		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().setHasMoved(true,execute);
 		board[movLoc.getLocToFile()][movLoc.getLocToRank()]= board[movLoc.getLocFromFile()][movLoc.getLocFromRank()];
 		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()] = null;
 	}
@@ -76,19 +80,20 @@ public class Move {
 	}
 	
 	private boolean isMovePawnPromotion(char player) {
-		return isPawn(movLoc.getLocFromFile(),movLoc.getLocFromRank()) && ((Pawn) (board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece())).isPromoted;
+		return isPawn(movLoc.getLocFromFile(),movLoc.getLocFromRank()) && ((Pawn) (board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece())).isPromoted();
 
 	}
 	
-	private void enPassantMove(char player) {
+	
+	private void enPassantMove(char player,boolean execute) {
 		if(player == 'b') {
-			board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().setHasMoved(true);
+			board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().setHasMoved(true,execute);
 			board[movLoc.getLocToFile()][movLoc.getLocToRank()]= board[movLoc.getLocFromFile()][movLoc.getLocFromRank()];
 			board[movLoc.getLocFromFile()][movLoc.getLocFromRank()] = null;
 			board[movLoc.getLocFromFile()][movLoc.getLocToRank()] = null;
 		}
 		if(player == 'w') {
-			board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().setHasMoved(true);
+			board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().setHasMoved(true,execute);
 			board[movLoc.getLocToFile()][movLoc.getLocToRank()]= board[movLoc.getLocFromFile()][movLoc.getLocFromRank()];
 			board[movLoc.getLocFromFile()][movLoc.getLocFromRank()] = null;
 			board[movLoc.getLocFromFile()][movLoc.getLocToRank()] = null;
@@ -97,20 +102,20 @@ public class Move {
 	}
 	
 	private boolean isMoveEnPassant(char player) {
-		return isPawn(movLoc.getLocFromFile(),movLoc.getLocFromRank()) && ((Pawn) (board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece())).isEnPassant;
+		return isPawn(movLoc.getLocFromFile(),movLoc.getLocFromRank()) && ((Pawn) (board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece())).isEnPassant();
 
 	}
 	
 
 
-	private void castlingMove() {
-		performMove();
+	private void castlingMove(boolean execute) {
+		performMove(execute);
 		if(movLoc.getLocToRank()-movLoc.getLocFromRank()==2) {
-			board[movLoc.getLocToFile()][movLoc.getLocToRank()+1].getPiece().setHasMoved(true);
+			board[movLoc.getLocToFile()][movLoc.getLocToRank()+1].getPiece().setHasMoved(true,execute);
 			board[movLoc.getLocToFile()][movLoc.getLocToRank()-1]= board[movLoc.getLocToFile()][movLoc.getLocToRank()+1];
 			board[movLoc.getLocToFile()][movLoc.getLocToRank()+1] = null;
 		}else {
-			board[movLoc.getLocToFile()][movLoc.getLocToRank()-2].getPiece().setHasMoved(true);
+			board[movLoc.getLocToFile()][movLoc.getLocToRank()-2].getPiece().setHasMoved(true,execute);
 			board[movLoc.getLocToFile()][movLoc.getLocToRank()+1]= board[movLoc.getLocToFile()][movLoc.getLocToRank()-2];
 			board[movLoc.getLocToFile()][movLoc.getLocToRank()-2] = null;
 		}

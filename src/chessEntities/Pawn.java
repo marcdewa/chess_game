@@ -5,9 +5,9 @@ import chess_games.PiecesLocation;
 import chess_games.Board;
 public class Pawn extends Pieces {
 	
-	public boolean isPromoted;
-	public boolean isEnPassant;
-	public boolean isMove2Files;
+	private boolean isPromoted;
+	private boolean isEnPassant;
+	private boolean isMove2Files;
 	
 	public Pawn(char player,Board[][] board) {
 		super('P', player,board);
@@ -19,17 +19,18 @@ public class Pawn extends Pieces {
 
 	@Override
 	public boolean canMove(MoveCoordinate movLoc ,boolean execute) {
-		Execute(execute);
+		setEnPassant(execute,false);
+		setMove2Files(execute,false);
 		promotedMoveValidation(movLoc,execute);
 		if(isEnPassantMove(movLoc)) {
-			this.isEnPassant = true;
+			setEnPassant(execute,true);
 			return true;
 		}
 		else if(isTakingPiece(movLoc)) {
         	return true;
         }        
         else if(moveTwoFiles(movLoc)) {
-        	this.isMove2Files = true;
+        	setMove2Files(execute,true);
         	return true;
         }
         else if(moveOneFile(movLoc)) {
@@ -39,21 +40,11 @@ public class Pawn extends Pieces {
 		return false;
 	}
 	
-	private void Execute(boolean execute) {
-		if(execute) {
-			this.isEnPassant = false;
-			this.isMove2Files = false;
-		}
-	}
 	
 	public void promotedMoveValidation(MoveCoordinate mc,boolean execute) {
-		if(execute) {
 			PiecesLocation locTo = mc.getLocTo();
-			if(player.getColor() =='w' && locTo.getFile() == 8) this.isPromoted = true;
-			if(player.getColor() =='b' && locTo.getFile() == 1) this.isPromoted = true;
-		}
-		
-		
+			if(player.getColor() =='w' && locTo.getFile() == 8) setPromoted(execute,true);
+			if(player.getColor() =='b' && locTo.getFile() == 1) setPromoted(execute,true);
 	}
 
 	private boolean isEnPassantMove(MoveCoordinate movLoc) {
@@ -66,7 +57,6 @@ public class Pawn extends Pieces {
 			return false;
 		}
 		if(board[toFile+enemyOffset][toRank] != null) {
-			//System.out.println(((Pawn) board[toFile+enemyOffset][toRank].getPiece()).isMove2Files);
 			if((rankDifferenceIsEqualsTo(1,movLoc) 
 					&&fileDifferenceIsEqualsTo(1,movLoc)) 
 					&& board[toFile+enemyOffset][toRank] != null
@@ -178,6 +168,35 @@ public class Pawn extends Pieces {
 			return true;
 		}
 		return false;
+	}
+	
+	
+	public boolean isPromoted() {
+		return this.isPromoted;
+	}
+
+	public boolean isEnPassant() {
+		return this.isEnPassant;
+	}
+
+	public boolean isMove2Files() {
+		return this.isMove2Files;
+	}
+	
+	public boolean setMove2FilesFalse() {
+		return this.isMove2Files = false;
+	}
+
+	private void setPromoted(boolean execute , boolean promoted) {
+		if(execute) this.isPromoted = promoted;
+	}
+
+	private void setEnPassant(boolean execute , boolean enpassant) {
+		if(execute) this.isEnPassant = enpassant;
+	}
+
+	private void setMove2Files(boolean execute , boolean move2files) {
+		if(execute) this.isMove2Files = move2files;
 	}
 		
 	

@@ -6,13 +6,7 @@ import chess_games.Board;
 
 public class King extends Pieces {
 	private boolean castling;
-	public boolean isCastling() {
-		return castling;
-	}
 
-	public void setCastling(boolean castling) {
-		this.castling = castling;
-	}
 
 	public King(char player,Board[][] board) {
 		super('K', player,board);
@@ -32,35 +26,43 @@ public class King extends Pieces {
 			return true;
 		}
 		else if(!hasMoved) {
-			return castlingValidation(movLoc);
+			return castlingValidation(movLoc,execute);
 			
 		}
 		return false;
 	}
+	
+	public boolean isCastling() {
+		return castling;
+	}
+	
+	private void setCastling(boolean execute,boolean castling) {
+		if(execute) this.castling=true;
+	}
 
-	private boolean castlingValidation(MoveCoordinate movLoc) {
+	private boolean castlingValidation(MoveCoordinate movLoc,boolean execute) {
 		if(fileDifferenceIsEqualsTo(0,movLoc) ){
 			
 			if(kingsideCastlingValidation(movLoc)
 					&&isRookHasMoved(movLoc.getLocTo(),1)) {
-					castling = false;
+					setCastling(execute,false);
 					return false;
 				}
 			
 			else if(queensideCastlingValidation(movLoc)
 					&& isRookHasMoved(movLoc.getLocTo(),-2))
 				 {
-					castling = false;
+					setCastling(execute,false);
 					return false;
 				}
 				
 		}
 		else{
-			castling = false;
+			setCastling(execute,false);
 			return false;
 		}
 		
-		castling = true;
+		setCastling(execute,true);
 		return true;
 	}
 

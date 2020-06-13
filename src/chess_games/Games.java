@@ -21,16 +21,16 @@ import chessEntities.*;
 public class Games {
 	public Board[][] board ;
 	public Move move;
-	public BoardPrinter print;
-	Scanner scan ;
-	public PiecesLocation lastMovedLoc;
-	public PiecesLocation tempMovedLoc;
+	private BoardPrinter print;
+	private Scanner scan ;
+	private PiecesLocation lastMovedLoc;
+	private PiecesLocation tempMovedLoc;
 	
 	public Games() {
-		print = new BoardPrinter(this);
-		scan = new Scanner(System.in);
-		board = new Board[10][10];
-		move = new Move(board);
+		this.print = new BoardPrinter(this);
+		this.scan = new Scanner(System.in);
+		this.board = new Board[10][10];
+		this.move = new Move(board);
 	}
 	
 	public void startGame() {
@@ -82,8 +82,10 @@ public class Games {
 		String color = (player == 'b') ? "black" : "white"; 
 		
 		print.print();
+		
 		boolean isChecked = isChecked(player);
 		isCheckmateOrStalemate(player,isChecked);
+		
 		System.out.println(color+" move: ");
 		Board[][] oldBoard = move.cloning(board);
 		input = scan.nextLine();
@@ -103,13 +105,14 @@ public class Games {
 			if(isBoardNull(file, rank)) {
 				if(isPawn(file, rank))
 				{
-					 ((Pawn)board[file][rank].getPiece()).isMove2Files = false;
+					 ((Pawn)board[file][rank].getPiece()).setMove2FilesFalse();
 				}
 			}
 		
 		}
-		
-		this.lastMovedLoc = new PiecesLocation(tempMovedLoc.getFile(),tempMovedLoc.getRank());
+		int tempFile=tempMovedLoc.getFile();
+		int tempRank=tempMovedLoc.getRank();
+		this.lastMovedLoc = new PiecesLocation(tempFile,tempRank);
 	}
 
 	private boolean isPawn(int file, int rank) {

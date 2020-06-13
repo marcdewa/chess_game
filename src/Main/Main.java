@@ -44,7 +44,7 @@ public class Main {
 	
 
 	private void algebraicOrCoordinate() {
-		System.out.println("1. Algebraics");
+		System.out.println("1. Algebraic");
 		System.out.println("2. Coordinate");
 		System.out.println("Choose move notation [1-2]: ");
 
