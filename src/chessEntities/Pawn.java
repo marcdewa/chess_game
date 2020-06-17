@@ -1,7 +1,7 @@
 package chessEntities;
 
 import chess_games.MoveCoordinate;
-import chess_games.PiecesLocation;
+import chess_games.Location;
 import chess_games.Board;
 public class Pawn extends Pieces {
 	
@@ -42,7 +42,7 @@ public class Pawn extends Pieces {
 	
 	
 	public void promotedMoveValidation(MoveCoordinate mc,boolean execute) {
-			PiecesLocation locTo = mc.getLocTo();
+			Location locTo = mc.getLocTo();
 			if(player.getColor() =='w' && locTo.getFile() == 8) setPromoted(execute,true);
 			if(player.getColor() =='b' && locTo.getFile() == 1) setPromoted(execute,true);
 	}
@@ -160,7 +160,7 @@ public class Pawn extends Pieces {
         return false;
 	}
 	
-	private boolean isFirstTurn(PiecesLocation locFrom) {
+	private boolean isFirstTurn(Location locFrom) {
 		if(this.player.getColor()=='b' && locFrom.getFile()==7) {
 			return true;
 		}

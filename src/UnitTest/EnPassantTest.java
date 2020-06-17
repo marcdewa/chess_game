@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import chessEntities.*;
-import chess_games.Games;
+import chess_games.Game;
 import chess_games.MoveCoordinate;
 import chess_games.Player;
 
@@ -13,7 +13,7 @@ class EnPassantTest {
 
 	@Test
 	void correctMovementTest() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		char player = 'b';
 		MoveCoordinate mc;
 		game.setNewPieceAt(4,2,new Pawn(player,game.board));
@@ -27,7 +27,7 @@ class EnPassantTest {
 	
 	@Test
 	void correctMovementTest1() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		char player = 'b';
 		MoveCoordinate mc;
 		game.setNewPieceAt(7,7,new Pawn(player,game.board));

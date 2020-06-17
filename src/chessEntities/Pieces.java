@@ -10,7 +10,7 @@ public abstract class Pieces {
 	protected char pieceName;
 	protected Player player;
 	protected boolean hasMoved;
-	protected Board[][] board;
+	protected Board[][] board;//Board[][] for offset check
 	
 	public abstract boolean canMove(MoveCoordinate moveLoc,boolean execute);
 	

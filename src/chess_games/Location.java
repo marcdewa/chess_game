@@ -2,22 +2,22 @@ package chess_games;
 
 
 
-public class PiecesLocation {
+public class Location {
 	
 		private int rank;
 		private int file;
 		
-		public PiecesLocation(int file, int rank) {
+		public Location(int file, int rank) {
 			this.rank=rank;
 			this.file=file;
 		}
 		
-		public PiecesLocation(char file, char rank) {
+		public Location(char file, char rank) {
 			this.rank = rank - 64;
 			this.file = file - 48;
 		}
 		
-		public PiecesLocation(String Loc) throws Exception {
+		public Location(String Loc) throws Exception {
 			int rank = Loc.charAt(0)-64;
 			int file = Loc.charAt(1)-48;
 			if(coordinateValidation(rank,file))

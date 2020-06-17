@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import chessEntities.*;
-import chess_games.Games;
+import chess_games.Game;
 import chess_games.MoveCoordinate;
 import chess_games.Player;
 
@@ -13,7 +13,7 @@ class PawnPromotion {
 
 	@Test
 	void correctMovementTest() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		Player playerP = new Player('b');
 		char player = playerP.getColor();
 		int startPoint = 2;
@@ -25,7 +25,7 @@ class PawnPromotion {
 	
 	@Test
 	void correctMovementTest2() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		Player playerP = new Player('w');
 		char player = playerP.getColor();
 		int startPoint = 7;
@@ -37,7 +37,7 @@ class PawnPromotion {
 	
 	@Test
 	void correctMovementTest3() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		Player playerP = new Player('w');
 		char player = playerP.getColor();
 		int startPoint = 7;
@@ -49,7 +49,7 @@ class PawnPromotion {
 	
 	@Test
 	void correctMovementTest4() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		Player playerP = new Player('w');
 		char player = playerP.getColor();
 		int startPoint = 7;
@@ -61,7 +61,7 @@ class PawnPromotion {
 	
 	@Test
 	void correctMovementTest5() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		Player playerP = new Player('w');
 		char player = playerP.getColor();
 		int startPoint = 7;
@@ -73,7 +73,7 @@ class PawnPromotion {
 	
 	@Test
 	void FalseMovementTest() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		Player playerP = new Player('w');
 		char player = playerP.getColor();
 		int startPoint = 6;

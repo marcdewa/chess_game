@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import chessEntities.*;
 import chess_games.BoardPrinter;
-import chess_games.Games;
+import chess_games.Game;
 import chess_games.MoveCoordinate;
 import chess_games.Player;
 
@@ -15,7 +15,7 @@ class PawnTest {
 	
 	@Test
 	void correctMovementTest1() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		char player = 'b';
 		int file = 7;
 		int rank = 4;
@@ -26,7 +26,7 @@ class PawnTest {
 	}
 	@Test
 	void correctMovementTest2() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		char player = 'b';
 		int file = 7;
 		int rank = 4;
@@ -37,8 +37,8 @@ class PawnTest {
 	
 	@Test
 	void correctMovementTest3() throws Exception {
-		Games game = new Games();	
-		BoardPrinter print = new BoardPrinter(game);
+		Game game = new Game();	
+		BoardPrinter print = new BoardPrinter(game.board);
 		Player playerP = new Player('b');
 		char player = playerP.getColor();
 		int file = 7;
@@ -53,7 +53,7 @@ class PawnTest {
 	
 	@Test
 	void correctMovementTest4() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		char player = 'b';
 		int file = 7;
 		int rank = 4;
@@ -66,7 +66,7 @@ class PawnTest {
 	
 	@Test
 	void FalseMovementTest1() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		char player = 'b';
 		int file = 7;
 		int rank = 4;
@@ -79,7 +79,7 @@ class PawnTest {
 	
 	@Test
 	void falseMovementTest2() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		char player = 'b';
 		int file = 7;
 		int rank = 4;

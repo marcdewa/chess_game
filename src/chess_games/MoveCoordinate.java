@@ -2,13 +2,13 @@ package chess_games;
 
 public class MoveCoordinate {
 	
-	private PiecesLocation locFrom;
-	private PiecesLocation locTo;
+	private Location locFrom;
+	private Location locTo;
 	private char promotedPiece ;
 	
-	public MoveCoordinate(String input,Games game) throws Exception {
-		PiecesLocation locFrom;
-		PiecesLocation locTo;
+	public MoveCoordinate(String input,Game game) throws Exception {
+		Location locFrom;
+		Location locTo;
 		if(isPromotedInputValid(input)) {
 			locFrom = coordinateToInteger(input,0,2);
 			locTo = coordinateToInteger(input,3,5);
@@ -29,15 +29,15 @@ public class MoveCoordinate {
 		this.locTo = locTo;
 	}
 	
-	public MoveCoordinate(PiecesLocation locFrom, PiecesLocation locTo) {
+	public MoveCoordinate(Location locFrom, Location locTo) {
 		this.locFrom = locFrom;
 		this.locTo = locTo;
 	}
 	
 	
-	public MoveCoordinate(int x ,int y , int i ,int j,Games game) throws Exception {
-		PiecesLocation locFrom = new PiecesLocation(x,y);
-		PiecesLocation locTo = new PiecesLocation(i,j);
+	public MoveCoordinate(int x ,int y , int i ,int j,Game game) throws Exception {
+		Location locFrom = new Location(x,y);
+		Location locTo = new Location(i,j);
 		
 		this.locFrom = locFrom;
 		this.locTo = locTo;
@@ -50,7 +50,7 @@ public class MoveCoordinate {
 	
 
 
-	private boolean inputValidation(PiecesLocation locTo, PiecesLocation locFrom,Games game) {
+	private boolean inputValidation(Location locTo, Location locFrom,Game game) {
 		if(locFrom.getFile()==locTo.getFile() && locFrom.getRank()==locTo.getRank()) {
 			return true;
 		}
@@ -64,12 +64,12 @@ public class MoveCoordinate {
 		return false;
 	}
 	
-	public PiecesLocation coordinateToInteger(String locInput,int start , int end) {
+	public Location coordinateToInteger(String locInput,int start , int end) {
 		String Position;
 		Position = locInput.substring(start,end);
 		
 		try {
-			PiecesLocation loc = new PiecesLocation(Position);
+			Location loc = new Location(Position);
 			return loc;
 		} catch (Exception e) {
 			return null;
@@ -77,11 +77,11 @@ public class MoveCoordinate {
 		
 	}
 	
-	public PiecesLocation getLocFrom() {
+	public Location getLocFrom() {
 		return locFrom;
 	}
 
-	public PiecesLocation getLocTo() {
+	public Location getLocTo() {
 		return locTo;
 	}
 

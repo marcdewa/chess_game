@@ -1,7 +1,7 @@
 package chessEntities;
 
 import chess_games.MoveCoordinate;
-import chess_games.PiecesLocation;
+import chess_games.Location;
 import chess_games.Board;
 
 public class King extends Pieces {
@@ -66,7 +66,7 @@ public class King extends Pieces {
 		return true;
 	}
 
-	private boolean isRookHasMoved(PiecesLocation locTo, int i) {
+	private boolean isRookHasMoved(Location locTo, int i) {
 		return board[locTo.getFile()][locTo.getRank()+i].getPiece().isHasMoved();
 	}
 

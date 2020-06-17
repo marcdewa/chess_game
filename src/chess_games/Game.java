@@ -18,18 +18,18 @@ import chessEntities.*;
  * */
 
 
-public class Games {
+public class Game {
 	public Board[][] board ;
 	public Move move;
 	private BoardPrinter print;
 	private Scanner scan ;
-	private PiecesLocation lastMovedLoc;
-	private PiecesLocation tempMovedLoc;
+	private Location lastMovedLoc;
+	private Location tempMovedLoc;
 	
-	public Games() {
-		this.print = new BoardPrinter(this);
+	public Game() {
 		this.scan = new Scanner(System.in);
 		this.board = new Board[10][10];
+		this.print = new BoardPrinter(board);
 		this.move = new Move(board);
 	}
 	
@@ -71,7 +71,7 @@ public class Games {
 	}
 	
 	public void setNewPieceAt(int file,int rank,Pieces piece) {
-		board[file][rank] = new Board(new PiecesLocation(file,rank),piece);
+		board[file][rank] = new Board(new Location(file,rank),piece);
 	}
 	
 	private void Turn(char player) {
@@ -112,7 +112,7 @@ public class Games {
 		}
 		int tempFile=tempMovedLoc.getFile();
 		int tempRank=tempMovedLoc.getRank();
-		this.lastMovedLoc = new PiecesLocation(tempFile,tempRank);
+		this.lastMovedLoc = new Location(tempFile,tempRank);
 	}
 
 	private boolean isPawn(int file, int rank) {
@@ -127,7 +127,7 @@ public class Games {
 	private boolean coordinateMove(String input,char player)  {		
 		try {
 			MoveCoordinate movLoc = new MoveCoordinate(input,this);
-			this.tempMovedLoc = new PiecesLocation(movLoc.getLocToFile(),movLoc.getLocToRank());
+			this.tempMovedLoc = new Location(movLoc.getLocToFile(),movLoc.getLocToRank());
 			return move.movingPiece(new Player(player),movLoc,true);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -162,13 +162,13 @@ public class Games {
 	}
 	
 	public boolean isChecked(char player){
-        PiecesLocation kingPos = kingPosition(player);
+        Location kingPos = kingPosition(player);
         int file = kingPos.getFile();
         int rank = kingPos.getRank();
         for(int i = 1; i<board.length; i++){
             for(int j = 1; j<board[0].length; j++){
                 if(board[i][j] != null){
-                    if(board[i][j].canMove(new MoveCoordinate(new PiecesLocation(i,j), new PiecesLocation(file,rank)),false) && 
+                    if(board[i][j].canMove(new MoveCoordinate(new Location(i,j), new Location(file,rank)),false) && 
                     		board[i][j].getColor() != player){
                     	return true;
                     }
@@ -178,7 +178,7 @@ public class Games {
         return false;
     }
 	
-	private PiecesLocation kingPosition(char player) {
+	private Location kingPosition(char player) {
 		int file = 0;
 		int rank = 0;
 		
@@ -196,7 +196,7 @@ public class Games {
 
 		}
 		
-		return new PiecesLocation(file,rank);
+		return new Location(file,rank);
 	}
 
 	

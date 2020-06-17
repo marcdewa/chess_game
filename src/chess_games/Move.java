@@ -79,7 +79,7 @@ public class Move {
 	}
 	
 	public void setNewPieceAt(int file,int rank,Pieces piece) {
-		board[file][rank] = new Board(new PiecesLocation(file,rank),piece);
+		board[file][rank] = new Board(new Location(file,rank),piece);
 	}
 	
 	private boolean isMovePawnPromotion() {
@@ -129,7 +129,7 @@ public class Move {
 
 	
 	private boolean isMoveCastling() {
-		PiecesLocation locFrom = movLoc.getLocFrom();
+		Location locFrom = movLoc.getLocFrom();
 		return isKing(locFrom.getFile(),locFrom.getRank()) && ((King) (board[locFrom.getFile()][locFrom.getRank()].getPiece())).isCastling();
 	}
 	
@@ -166,11 +166,11 @@ public class Move {
 
 	
 	private boolean isPawn(int i, int j) {
-		return board[i][j].getPiece().isPawn(i, j)|| board[i][j].getPiece().isPawn(i, j);
+		return board[i][j].getPiece().isPawn(i, j);
 	}
 	
 	public boolean isKing(int i, int j) {
-		return board[i][j].getPiece().isKing(i, j)|| board[i][j].getPiece().isKing(i, j);
+		return board[i][j].getPiece().isKing(i, j);
 	}
 	
 }

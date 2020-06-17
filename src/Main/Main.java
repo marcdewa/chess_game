@@ -2,7 +2,7 @@ package Main;
 
 import java.util.Scanner;
 import chess_games.BoardPrinter;
-import chess_games.Games;
+import chess_games.Game;
 
 /* Maaf ko , saya baru sadar diakhir project kalok saya terbalik menggunakan 
  * maksud file dan rank , disini saya menggunakan 
@@ -18,8 +18,8 @@ import chess_games.Games;
 
 public class Main {
 	Scanner scan = new Scanner(System.in);
-	Games game = new Games();
-	BoardPrinter print = new BoardPrinter(game);
+	Game game = new Game();
+	BoardPrinter print = new BoardPrinter(game.board);
 	
 	int flag ;
 	public Main() {

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 
 import chessEntities.*;
-import chess_games.Games;
+import chess_games.Game;
 import chess_games.MoveCoordinate;
 import chess_games.Player;
 
@@ -16,7 +16,7 @@ class GameTest {
 
 	@Test
 	void stalemateCheck() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		char player = 'b';
 		int file = 8;
 		int rank = 1;
@@ -38,7 +38,7 @@ class GameTest {
 	
 	@Test
 	void stalemateCheck2() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		char player = 'b';
 		int file = 1;
 		int rank = 8;
@@ -61,7 +61,7 @@ class GameTest {
 	
 	@Test
 	void CheckmateCheck1() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		char player = 'b';
 		int file = 8;
 		int rank = 8;
@@ -84,7 +84,7 @@ class GameTest {
 	
 	@Test
 	void gamesCheck1() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		game.setNewPieceAt(8,2,new Rook('w',game.board));
 		game.setNewPieceAt(8,1,new Rook('w',game.board));
 		//game.print.print();
@@ -94,7 +94,7 @@ class GameTest {
 	
 	@Test
 	void gamesCheck2() throws Exception {
-		Games game = new Games();
+		Game game = new Game();
 		game.setNewPieceAt(8,4,new Rook('b',game.board));
 		game.setNewPieceAt(8,2,new King('w',game.board));
 		game.setNewPieceAt(1,1,new Rook('w',game.board));
@@ -126,7 +126,7 @@ class GameTest {
 	
 	@Test
 	void gamesCheck5() throws Exception {
-		Games game = new Games();
+		Game game = new Game();
 		game.defaultPieceLocation('b');
 		//game.print.print();
 		//MoveCoordinate mc = new MoveCoordinate("D8-E8",game);

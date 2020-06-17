@@ -1,10 +1,10 @@
 package chess_games;
 
 public class BoardPrinter {
-	Games game;
+	private Board[][] board;
 	
-	public BoardPrinter(Games game) {
-		this.game = game;
+	public BoardPrinter(Board[][] board) {
+		this.board = board;
 	}
 
 	public void print() {
@@ -14,7 +14,7 @@ public class BoardPrinter {
 			for(int j = 1 ; j < 9 ; j++) {
 				
 				if(!isBoardNull(i, j)) {
-				System.out.print(" "+game.board[i][j].getPiece().getPieceName()+" ");
+				System.out.print(" "+board[i][j].getPiece().getPieceName()+" ");
 				}else plusOrMinusSymbol(i, j);
 				
 			}
@@ -24,7 +24,7 @@ public class BoardPrinter {
 	}
 
 	private boolean isBoardNull(int i, int j) {
-		return game.board[i][j] == null;
+		return board[i][j] == null;
 	}
 	
 

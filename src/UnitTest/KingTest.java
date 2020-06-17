@@ -10,7 +10,7 @@ class KingTest {
 
 	@Test
 	void correctMovementTest() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		char player = 'b';
 		int startPoint = 8;
 		game.setNewPieceAt(startPoint,5,new King(player,game.board));
@@ -22,7 +22,7 @@ class KingTest {
 	
 	@Test
 	void correctMovementTest1() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		Player playerP = new Player('b');
 		char player = playerP.getColor();
 		int startPoint = 8;
@@ -35,7 +35,7 @@ class KingTest {
 	
 	@Test
 	void falseMovementTest() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		Player playerP = new Player('b');
 		char player = playerP.getColor();
 		int startPoint = 8;
@@ -53,7 +53,7 @@ class KingTest {
 	
 	@Test
 	void falseMovementTest1() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		char player = 'b';
 		int startPoint = 8;
 		game.setNewPieceAt(startPoint,4,new King(player,game.board));
@@ -64,7 +64,7 @@ class KingTest {
 	
 	@Test
 	void falseMovementTest2() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		Player playerP = new Player('b');
 		char player = playerP.getColor();
 		int startPoint = 8;
@@ -82,7 +82,7 @@ class KingTest {
 	
 	@Test
 	void falseMovementTest3() throws Exception {
-		Games game = new Games();	
+		Game game = new Game();	
 		Player playerP = new Player('b');
 		char player = playerP.getColor();
 		int startPoint = 8;

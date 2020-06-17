@@ -23,4 +23,8 @@ public class Player {
 		
 	}
 	
+	public boolean isBlack() {
+		return color=='b';
+	}
+	
 }
