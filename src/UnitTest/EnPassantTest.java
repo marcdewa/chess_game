@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import chessEntities.*;
 import chess_games.Games;
 import chess_games.MoveCoordinate;
+import chess_games.Player;
 
 class EnPassantTest {
 
@@ -18,10 +19,10 @@ class EnPassantTest {
 		game.setNewPieceAt(4,2,new Pawn(player,game.board));
 		game.setNewPieceAt(2,1,new Pawn('w',game.board));
 		mc = new MoveCoordinate("A2-A4",game);
-		game.move.movingPiece('w', mc,true);
+		game.move.movingPiece(new Player('w'), mc,true);
 		mc = new MoveCoordinate("B4-A3",game);
 		//game.print.print();
-		assertTrue(game.move.movingPiece(player,mc,true),"Black side enpassant");
+		assertTrue(game.move.movingPiece(new Player(player),mc,true),"Black side enpassant");
 	}
 	
 	@Test
@@ -32,10 +33,10 @@ class EnPassantTest {
 		game.setNewPieceAt(7,7,new Pawn(player,game.board));
 		game.setNewPieceAt(5,6,new Pawn('w',game.board));
 		mc = new MoveCoordinate("G7-G5",game);
-		game.move.movingPiece('b', mc,true);
+		game.move.movingPiece(new Player('b'), mc,true);
 		mc = new MoveCoordinate("F5-G6",game);
 		//game.print.print();
-		assertTrue(game.move.movingPiece('w',mc,true),"enpassant");
+		assertTrue(game.move.movingPiece(new Player('w'),mc,true),"enpassant");
 	}
 	
 //	@Test

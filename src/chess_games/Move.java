@@ -4,24 +4,26 @@ package chess_games;
 import chessEntities.*;
 
 public class Move {
-	Board[][] board;
-	MoveCoordinate movLoc;
+	private Board[][] board;
+	private MoveCoordinate movLoc;
+	private Player player;
 	
 	public Move(Board[][] board) {
 		this.board = board;
 	}
 	
-	public boolean movingPiece(char player,MoveCoordinate movLoc,boolean execute) {
+	public boolean movingPiece(Player player,MoveCoordinate movLoc,boolean execute) {
 		this.movLoc = movLoc;
-		if(isMoveValid(player,execute)) {
-			if(isMovePawnPromotion(player)) {
-				pawnPromotionMove(player);
+		this.player = player;
+		if(isMoveValid(execute)) {
+			if(isMovePawnPromotion()) {
+				pawnPromotionMove();
 				return true;
 			}
 			
-			else if(isMoveEnPassant(player)) {
+			else if(isMoveEnPassant()) {
 				
-				enPassantMove(player,execute);
+				enPassantMove(execute);
 				return true;
 			}
 			
@@ -38,12 +40,12 @@ public class Move {
 		
 	}
 	
-	private boolean isMoveValid(char player,boolean execute) {
+	private boolean isMoveValid(boolean execute) {
 		int fromFile = movLoc.getLocFromFile();
 		int fromRank = movLoc.getLocFromRank();
 		if(!isEnemyPiece()) 
 			return false;
-		if(!(board[fromFile][fromRank].getColor() == player)) 
+		if(!(board[fromFile][fromRank].getColor() == player.getColor())) 
 			return false;
 		if(!(board[fromFile][fromRank].canMove(movLoc,execute))) 
 			return false;
@@ -59,7 +61,8 @@ public class Move {
 		board[movLoc.getLocFromFile()][movLoc.getLocFromRank()] = null;
 	}
 	
-	private void pawnPromotionMove(char player) {
+	private void pawnPromotionMove() {
+		char player = this.player.getColor();
 		if(movLoc.getPromotedPiece() == 'Q') {
 			setNewPieceAt(movLoc.getLocToFile(),movLoc.getLocToRank(),new Queen(player,board));
 		}
@@ -79,13 +82,14 @@ public class Move {
 		board[file][rank] = new Board(new PiecesLocation(file,rank),piece);
 	}
 	
-	private boolean isMovePawnPromotion(char player) {
+	private boolean isMovePawnPromotion() {
 		return isPawn(movLoc.getLocFromFile(),movLoc.getLocFromRank()) && ((Pawn) (board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece())).isPromoted();
 
 	}
 	
 	
-	private void enPassantMove(char player,boolean execute) {
+	private void enPassantMove(boolean execute) {
+		char player = this.player.getColor();
 		if(player == 'b') {
 			board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece().setHasMoved(true,execute);
 			board[movLoc.getLocToFile()][movLoc.getLocToRank()]= board[movLoc.getLocFromFile()][movLoc.getLocFromRank()];
@@ -101,7 +105,7 @@ public class Move {
 		
 	}
 	
-	private boolean isMoveEnPassant(char player) {
+	private boolean isMoveEnPassant() {
 		return isPawn(movLoc.getLocFromFile(),movLoc.getLocFromRank()) && ((Pawn) (board[movLoc.getLocFromFile()][movLoc.getLocFromRank()].getPiece())).isEnPassant();
 
 	}

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import chessEntities.*;
 import chess_games.Games;
 import chess_games.MoveCoordinate;
+import chess_games.Player;
 
 class GameTest {
 
@@ -88,7 +89,7 @@ class GameTest {
 		game.setNewPieceAt(8,1,new Rook('w',game.board));
 		//game.print.print();
 		MoveCoordinate mc = new MoveCoordinate("A8-B8",game);
-		assertFalse(game.move.movingPiece('w', mc,true),"Pieces can't eat own color piece");
+		assertFalse(game.move.movingPiece(new Player('w'), mc,true),"Pieces can't eat own color piece");
 	}
 	
 	@Test
@@ -99,7 +100,7 @@ class GameTest {
 		game.setNewPieceAt(1,1,new Rook('w',game.board));
 		//game.print.print();
 		MoveCoordinate mc = new MoveCoordinate("A1-A2",game);
-		game.move.movingPiece('w', mc,true);
+		game.move.movingPiece(new Player('w'), mc,true);
 		assertTrue(game.isChecked('w'),"Invalid move if the king is in check");
 	}
 	

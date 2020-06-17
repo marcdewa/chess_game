@@ -128,7 +128,7 @@ public class Games {
 		try {
 			MoveCoordinate movLoc = new MoveCoordinate(input,this);
 			this.tempMovedLoc = new PiecesLocation(movLoc.getLocToFile(),movLoc.getLocToRank());
-			return move.movingPiece(player,movLoc,true);
+			return move.movingPiece(new Player(player),movLoc,true);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return false;
@@ -230,7 +230,7 @@ public class Games {
     }
 
 	private boolean isLegalMove(char color, Board[][] oldBoard, MoveCoordinate mc) {
-		if(move.movingPiece(color,mc,false) && !isChecked(color)) {
+		if(move.movingPiece(new Player(color),mc,false) && !isChecked(color)) {
                             
 			move.reverseMove(oldBoard);
 		        return true;
