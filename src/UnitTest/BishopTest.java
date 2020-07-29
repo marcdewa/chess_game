@@ -1,8 +1,11 @@
 package UnitTest;
-import chess_games.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import chessEntities.Bishop;
+
+import Main.Bishop;
+import Main.Game;
+import Main.MoveCoordinate;
 
 class BishopTest {
 

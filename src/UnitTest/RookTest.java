@@ -4,9 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import chessEntities.*;
-import chess_games.Game;
-import chess_games.MoveCoordinate;
+import Main.Game;
+import Main.King;
+import Main.MoveCoordinate;
+import Main.Rook;
 
 class RookTest {
 

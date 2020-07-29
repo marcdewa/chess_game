@@ -1,8 +1,7 @@
-package chess_games;
+package Main;
 
 import java.util.Scanner;
 
-import chessEntities.*;
 
 
 /* Maaf ko , saya baru sadar diakhir project kalok saya terbalik menggunakan 

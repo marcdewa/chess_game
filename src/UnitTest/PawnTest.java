@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import chessEntities.*;
-import chess_games.BoardPrinter;
-import chess_games.Game;
-import chess_games.MoveCoordinate;
-import chess_games.Player;
+import Main.BoardPrinter;
+import Main.Game;
+import Main.MoveCoordinate;
+import Main.Pawn;
+import Main.Player;
 
 class PawnTest {
 

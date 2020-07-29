@@ -1,4 +1,4 @@
-package chess_games;
+package Main;
 
 public class Player {
 	private char color;

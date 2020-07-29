@@ -1,7 +1,5 @@
-package chessEntities;
+package Main;
 
-import chess_games.MoveCoordinate;
-import chess_games.Board;
 public class Rook extends Pieces {
 	
 	public Rook(char player,Board[][] board) {

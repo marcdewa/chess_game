@@ -1,8 +1,4 @@
-package chessEntities;
-
-import chess_games.MoveCoordinate;
-import chess_games.Location;
-import chess_games.Board;
+package Main;
 
 public class King extends Pieces {
 	private boolean castling;

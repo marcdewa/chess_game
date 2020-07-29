@@ -1,7 +1,5 @@
-package chessEntities;
+package Main;
 
-import chess_games.MoveCoordinate;
-import chess_games.Board;
 public class Queen extends Pieces {
 	
 	public Queen(char player,Board[][] board) {

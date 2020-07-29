@@ -1,9 +1,12 @@
 package UnitTest;
-import chess_games.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import chessEntities.King;
-import chessEntities.Rook;
+
+import Main.Game;
+import Main.King;
+import Main.MoveCoordinate;
+import Main.Player;
+import Main.Rook;
 
 
 class KingTest {
