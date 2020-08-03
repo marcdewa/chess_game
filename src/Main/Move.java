@@ -1,7 +1,7 @@
-package chess_games;
+package Main;
 
 
-import chessEntities.*;
+
 
 public class Move {
 	private Board[][] board;

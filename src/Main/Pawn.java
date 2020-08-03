@@ -1,8 +1,5 @@
-package chessEntities;
+package Main;
 
-import chess_games.MoveCoordinate;
-import chess_games.Location;
-import chess_games.Board;
 public class Pawn extends Pieces {
 	
 	private boolean isPromoted;

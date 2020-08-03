@@ -1,8 +1,6 @@
 package Main;
 
 import java.util.Scanner;
-import chess_games.BoardPrinter;
-import chess_games.Game;
 
 /* Maaf ko , saya baru sadar diakhir project kalok saya terbalik menggunakan 
  * maksud file dan rank , disini saya menggunakan 

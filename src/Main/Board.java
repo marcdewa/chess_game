@@ -1,6 +1,6 @@
-package chess_games;
+package Main;
 
-import chessEntities.*;
+
 
 public class Board {
 	private Pieces piece;

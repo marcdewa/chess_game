@@ -1,7 +1,4 @@
-package chessEntities;
-
-import chess_games.MoveCoordinate;
-import chess_games.Board;
+package Main;
 
 public class Bishop extends Pieces {
 	

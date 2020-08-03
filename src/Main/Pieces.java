@@ -1,9 +1,4 @@
-package chessEntities;
-
-
-import chess_games.MoveCoordinate;
-import chess_games.Board;
-import chess_games.Player;
+package Main;
 
 public abstract class Pieces {
 	
